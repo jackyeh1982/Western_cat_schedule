@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>-----</title>
+
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="templatemo-electric-xtra.css" rel="stylesheet">
+
+    <!-- 清除網頁快取標籤 (No-Cache Meta Tags) -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+
+<!---------------- 當前時間與倒數計時 開始 ------------------------->
+<script>
+    function myDate(){
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        var hours = now.getHours();
+        var minutes = now.getMinutes();
+        var seconds = now.getSeconds();
+ 
+        // 補零處理 (例如 09:05:01)
+        hours = hours < 10 ? '0' + hours : hours;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        seconds = seconds < 10 ? '0' + seconds : seconds;
+
+        // 顯示當前時間
+        document.getElementById("div").innerHTML = "現在時間<br>" + year + "/" + month + "/" + day + "<br>" + hours + "：" + minutes + "：" + seconds;
+
+        // ------------------ 自訂倒數計時設定 ------------------
+        // 在這裡設定您的目標日期與時間 (格式：YYYY-MM-DDTHH:mm:ss)
+        // 例如：2026年9月9日 上午02:50
+        var targetDate = new Date("2026-09-08T21:50:00");
+        
+        var diff = targetDate - now; // 時間差 (毫秒)
+
+        if (diff > 0) {
+            var d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            var h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            var s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            // 補零處理
+            h = h < 10 ? '0' + h : h;
+            m = m < 10 ? '0' + m : m;
+            s = s < 10 ? '0' + s : s;
+
+            document.getElementById("countdown").innerHTML = "前往機場 飛向釜山 還有<br>" + d + " 天 " + h + " 小時 " + m + " 分 " + s + " 秒";
+        } else {
+            document.getElementById("countdown").innerHTML = "✈️ 已起飛或時間已過！";
+        }
+    }
+    setInterval(myDate, 1000);
+</script>
+<!---------------- 當前時間與倒數計時 結束 ------------------------->
+
+        <style>
+            :root {
+                --primary: #4a90e2;
+                --weekend: #e74c3c;
+                --holiday-bg: #fff1f0;
+                --holiday-text: #cf1322;
+                --custom-bg: #e6fffa;
+                --custom-text: #08979c;
+                --today-border: #4a90e2;
+                --bg: #f8f9fa;
+            }
+
+            .calendar-container {
+                background: #000000;
+                width: 100%;
+                border-radius: 50px;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .calendar-title {
+                text-align: center;
+                font-weight: bold;
+                margin-bottom: 10px;
+                color: #ffffff;
+            }
+
+            .nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .nav-controls { display: flex; align-items: center; gap: 5px; }
+
+            .btn {
+                background: #f0f0f0;
+                border: none;
+                padding: 5px 10px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 1em;
+            }
+
+            .btn:hover { background: var(--primary); color: white; }
+
+            #month-display-1, #month-display-2 { font-size: 1.1em; font-weight: 800; }
+
+            .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+
+            .day-header { font-weight: bold; color: #bbb; text-align: center; font-size: 1.2em; }
+
+.day {
+    height: 80px; /* 稍微拉高一點，容納兩行 */
+    display: flex;
+    flex-direction: column; /* 垂直堆疊：數字在上，文字在下 */
+    justify-content: flex-start; /* 讓日期數字靠上對齊 */
+    align-items: center;
+    border-radius: 8px;
+    font-size: 1.3em; /* 日期數字大小 */
+    position: relative;
+    border: 2px solid transparent;
+    padding-top: 4px; /* 數字距離頂部的間距 */
+}
+
+            .weekend { color: var(--weekend); }
+            .holiday { background-color: var(--holiday-bg); color: var(--holiday-text); font-weight: bold; }
+            /* 原本的顏色 */
+            .custom-mark { background-color: #e6fffa; color: #08979c; }
+
+            /* 新增的第二種顏色 (例如：淺黃底 + 深橘色文字) */
+            .custom-mark-2 { background-color: #fffbe6; color: #d46b08; font-weight: bold; }
+            .today { border-color: var(--today-border) !important; color: var(--primary); font-weight: 900; }
+
+.label {
+    font-size: 0.7em;       /* 縮小文字，避免搶走數字的空間 */
+    line-height: 1.1;       /* 設定行距，讓兩列文字緊湊 */
+    white-space: pre-line;  /* 關鍵：允許 HTML 中的 \n 換行符號生效 */
+    width: 100%;             /* 寬度撐滿 */
+    text-align: center;
+    margin-top: 0px;        /* 數字與文字之間的微小間距 */
+    pointer-events: none;   /* 不干擾點擊事件 */
+    font-weight: bold;
+}
+
+            .empty { visibility: hidden; }
+        </style>
+    </head>
+
+</head>
+<body>
+    <!-- Animated Grid Background -->
+    <div class="grid-bg"></div>
+    <div class="gradient-overlay"></div>
+    <div class="scanlines"></div>
+
+    <!-- Animated Shapes -->
+    <div class="shapes-container">
+        <div class="shape shape-circle"></div>
+        <div class="shape shape-triangle"></div>
+        <div class="shape shape-square"></div>
+    </div>
+
+    <!-- Floating Particles -->
+    <div id="particles"></div>
+
+    <!-- Navigation -->
+
+            <div class="menu-toggle" id="menuToggle">
+            </div>
+
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="text-rotator">
+                <div class="text-set active">
+<img src="images/IMG_43922.jpg" width="75%" height="75%;">
+                    <h1 class="glitch-text" data-text="西洋貓班表">西洋貓班表</h1>
+<!----------------                    <p class="subtitle">Enter the next dimension of digital innovation</p>  ------------------------->
+<!---------------- 當前時間 開始 ------------------------->
+<center>
+    <font size="6" face="DFKai-sb">
+        <strong style="background:red">
+            <!-- 現在時間 -->
+            <div id="div" style="color:#FFFFFF; padding: 8px;"></div>
+            <!-- 自訂倒數計時容器 -->
+            <div id="countdown" style="color:#FFFF00; padding: 5px; font-size: 0.8em;"></div>
+        </strong>
+    </font>
+</center>
+<!---------------- 當前時間 結束 ------------------------->
+                </div>
+                <div class="text-set">
+<!----------------                    <h1 class="glitch-text" data-text="BEYOND LIMITS">BEYOND LIMITS</h1>  ------------------------->
+<!----------------                    <p class="subtitle">Where technology meets infinite possibilities</p>  ------------------------->
+                </div>
+                <div class="text-set">
+ <!----------------                   <h1 class="glitch-text" data-text="ELECTRIC DREAMS">ELECTRIC DREAMS</h1>  ------------------------->
+ <!----------------                   <p class="subtitle">Powering tomorrow's digital revolution today</p>  ------------------------->
+                </div>
+            </div>
+        </div>
+        <div class="cta-container">
+
+
+        </div>
+    </section>
+
+    <!-- Features Section with Tabs -->
+    <section class="features" id="features">
+<!---------------- 表單內容 顯示月曆 開始------------------------->
+    <div class="service-content" id="services">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button class="btn" onclick="changeMonth(-1)" style="padding: 10px 15px;">《 上個月</button>
+                <button class="btn" onclick="goToToday()" style="padding: 10px 20px;">回到今天</button>
+                <button class="btn" onclick="changeMonth(1)" style="padding: 10px 15px;">下個月 》</button>
+            </div>
+        </div>
+    </div>
+<!---------------- 表單內容 顯示月曆 結束------------------------->
+        <div class="features-container">
+            <div class="feature-tabs">
+                <div class="tab-item active" data-tab="performance">
+                    <span class="tab-icon">🐱</span>
+                    <span>胖胖班表</span>
+                </div>
+                <div class="tab-item" data-tab="security">
+                    <span class="tab-icon">📅</span>
+                    <span>國定假日</span>
+                </div>
+                <div class="tab-item" data-tab="network">
+                    <span class="tab-icon">🌐</span>
+                    <span>犀利貓休假記錄</span>
+                </div>
+<!----------------                 <div class="tab-item" data-tab="analytics">  ------------------------->
+<!----------------                     <span class="tab-icon">📊</span>  ------------------------->
+<!----------------                     <span>Analytics</span>  ------------------------->
+<!----------------                 </div>  ------------------------->
+<!----------------                 <div class="tab-item" data-tab="integration">  ------------------------->
+<!----------------                     <span class="tab-icon">🔧</span>  ------------------------->
+<!----------------                     <span>Integration</span>  ------------------------->
+<!----------------                                    </div>  ------------------------->
+            </div>
+
+            <div class="feature-content">
+                <div class="content-panel active" id="performance">
+<!---------------- 表單內容 顯示月曆 開始------------------------->
+    <div class="service-content" id="services">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="calendar-container">
+                        <div class="calendar-title">☆★ 9/9 AM 02:50 起飛 釜山 ★☆</div>
+                        <div class="nav">
+                            <div id="month-display-2"></div>
+                        </div>
+                        <div class="days-grid" id="days-container-2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+<!---------------- 表單內容 顯示月曆 結束------------------------->
+                </div>
+                <div class="content-panel" id="security">
+<!---------------- 表單內容 顯示月曆 開始------------------------->
+    <div class="service-content" id="services">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="calendar-container">
+                        <div class="calendar-title">📅 國定假日</div>
+                        <div class="nav">
+                            <div id="month-display-1"></div>
+                        </div>
+                        <div class="days-grid" id="days-container-1"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+<!---------------- 表單內容 顯示月曆 結束------------------------->
+                </div>
+                <div class="content-panel" id="network">
+                    <h3>犀利貓休假記錄</h3>
+                    <p>年度特別休假日 <font color="#00DB00"> 15 </font> 天<br>
+計算起始日當年度至下年度<br>
+20XX/4/6 (首日) 至 20XX/4/5 (尾日)
+<br><span style="color: #ffff00;"><a style="color: #ffff00;" href="https://docs.google.com/forms/d/e/1FAIpQLSep_r4ye7pbrpHbfHNbH03dmJzIpgh7Ssurp01mKJmFeGh0ig/viewform?hl=zh_TW&amp;pli=1" target="_blank">組裝三課請假回報</a></span><br>佳宏課長：0903133940<br>小豪組長：0903368917</p>
+                    <ul class="feature-list">
+<!----------------------------------------------------------------->
+<table style="width: 100%; border-collapse: collapse;" border="1">
+
+    <tr>
+        <th style="width: 100%;" colspan="3"> <span style="color: #00db00;">2026/4/6 &rarr; 2027/4/5 </span> </th>
+    </tr>
+
+    <tr>
+        <th style="width: 30%;"> 04/06 首日 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0 </span> 天 </th> 
+        <th style="width: 30%;"> 餘 <span style="color: #00db00;"> 15 </span> 天 </th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 04/22 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;"> 餘 <span style="color: #00db00;"> 14.5 </span> 天 </th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 05/08 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;"> 餘 <span style="color: #00db00;"> 14 </span> 天 </th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 05/18 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 13.5 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 06/04 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 13 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 06/12 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 12.5 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 07/15 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 12 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 08/03 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 1 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 11 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 08/19 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0.5 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 10.5 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 09/09、10、11 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 3 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 7.5 </span> 天</th> 
+    </tr>
+    <tr>
+        <th style="width: 30%;"> 04/05 尾日 </th>
+        <th style="width: 30%;"> 特休 <span style="color: #00db00;"> 0 </span> 天 </th> 
+        <th style="width: 30%;">餘 <span style="color: #00db00;"> 7.5 </span> 天</th> 
+    </tr>
+
+</table>
+<!----------------------------------------------------------------->
+                    </ul>
+                </div>
+                <div class="content-panel" id="analytics">
+                    <h3>Advanced Analytics</h3>
+                    <p>Harness the power of AI-driven insights to make data-driven decisions. Real-time analytics and predictive modeling at your fingertips.</p>
+                    <ul class="feature-list">
+                        <li>Machine learning algorithms</li>
+                        <li>Predictive analytics</li>
+                        <li>Custom dashboard creation</li>
+                        <li>Real-time data visualization</li>
+                        <li>Automated reporting</li>
+                    </ul>
+                </div>
+                <div class="content-panel" id="integration">
+                    <h3>Seamless Integration</h3>
+                    <p>Connect with thousands of apps and services through our universal API. Built to work with your existing tools and workflows.</p>
+                    <ul class="feature-list">
+                        <li>RESTful API architecture</li>
+                        <li>WebSocket support</li>
+                        <li>SDK for major platforms</li>
+                        <li>One-click integrations</li>
+                        <li>Custom webhook support</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!---------------- 自定義 開始------------------------->
+<script>
+    const now = new Date();
+    const realYear = now.getFullYear();
+    const realMonth = now.getMonth();
+    const realDay = now.getDate();
+
+    let viewYear = realYear;
+    let viewMonth = realMonth;
+
+    const holidays = {
+        "1-1": { text: "元旦", type: "mark-2" },
+
+        "2-16": { text: "除夕", type: "mark-2" }, "2-17": { text: "春節", type: "mark-2" }, "2-18": { text: "初二", type: "mark-2" }, "2-19": { text: "初三", type: "mark-2" },
+        "2-20": { text: "初四", type: "mark-2" }, "2-27": { text: "補假", type: "mark-1" }, "2-28": { text: "二二八", type: "mark-2" },
+
+        "4-3": { text: "補假", type: "mark-1" }, "4-4": { text: "兒童節", type: "mark-2" }, "4-5": { text: "清明節", type: "mark-2" }, "4-6": { text: "補假", type: "mark-1" },
+
+        "5-1": { text: "勞動節", type: "mark-2" },
+
+        "6-19": { text: "端午節", type: "mark-2" },
+
+        "9-25": { text: "中秋節", type: "mark-2" }, "9-28": { text: "教師節", type: "mark-2" },
+
+        "10-10": { text: "雙十節", type: "mark-2" }, "10-9": { text: "補假", type: "mark-1" }, "10-25": { text: "光復節", type: "mark-2" }, "10-26": { text: "補假", type: "mark-1" },
+
+        "12-25": { text: "行憲紀念", type: "mark-2" },
+    };
+
+const customHighlights = {
+
+        "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" }, 
+        "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" }, 
+        "1-0": { text: "休\n假", type: "mark-1" }, "1-0": { text: "休\n假", type: "mark-1" },
+
+        "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" }, 
+        "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" }, 
+        "2-0": { text: "休\n假", type: "mark-1" }, "2-0": { text: "休\n假", type: "mark-1" },
+
+        "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" }, 
+        "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" }, 
+        "3-0": { text: "休\n假", type: "mark-1" }, "3-0": { text: "休\n假", type: "mark-1" },
+
+        "4-4": { text: "休假", type: "mark-2" }, "4-8": { text: "休假", type: "mark-2" }, "4-9": { text: "休假", type: "mark-2" }, "4-12": { text: "休假", type: "mark-2" }, 
+        "4-13": { text: "休假", type: "mark-2" }, "4-17": { text: "休假", type: "mark-2" }, "4-18": { text: "休假", type: "mark-2" }, "4-22": { text: "休假", type: "mark-2" }, 
+        "4-23": { text: "休假", type: "mark-2" }, "4-27": { text: "休假", type: "mark-2" }, "4-30": { text: "休假", type: "mark-2" },
+
+        "5-3": { text: "休假", type: "mark-2" }, "5-8": { text: "休假", type: "mark-2" }, "5-9": { text: "休假", type: "mark-2" }, "5-13": { text: "休假", type: "mark-2" }, 
+        "5-16": { text: "休假", type: "mark-2" }, "5-19": { text: "休假", type: "mark-2" }, "5-23": { text: "休假", type: "mark-2" }, "5-26": { text: "休假", type: "mark-2" }, 
+        "5-30": { text: "休假", type: "mark-2" }, 
+
+        "6-3": { text: "休假", type: "mark-2" }, "6-6": { text: "休假", type: "mark-2" }, "6-9": { text: "支樹\n中山", type: "mark-1" }, "6-10": { text: "支樹\n中山", type: "mark-1" }, 
+        "6-11": { text: "例假", type: "mark-2" }, "6-12": { text: "休假", type: "mark-2" }, "6-14": { text: "支\n四川", type: "mark-1" }, "6-15": { text: "例假", type: "mark-2" }, 
+        "6-16": { text: "休假", type: "mark-2" }, "6-22": { text: "例假", type: "mark-2" }, "6-27": { text: "休假", type: "mark-2" },
+        "6-30": { text: "例假", type: "mark-2" },
+
+        "7-1": { text: "節日", type: "mark-2" }, "7-4": { text: "例假", type: "mark-2" }, "7-8": { text: "例假", type: "mark-2" }, "7-11": { text: "支援\n板橋\n文化", type: "mark-1" }, 
+        "7-12": { text: "休假", type: "mark-2" }, "7-14": { text: "支援\n板橋\n華江", type: "mark-1" }, "7-15": { text: "例假", type: "mark-2" }, "7-16": { text: "休假", type: "mark-2" }, 
+        "7-19": { text: "例假", type: "mark-2" }, "7-22": { text: "休假", type: "mark-2" }, "7-24": { text: "支援\n板橋\n文化", type: "mark-1" }, "7-26": { text: "例假", type: "mark-2" },
+        "7-29": { text: "支援\n板橋\n華江", type: "mark-1" }, "7-30": { text: "休假", type: "mark-2" },
+
+        "8-2": { text: "支援\n板橋\n文化", type: "mark-1" }, "8-5": { text: "例假", type: "mark-2" }, "8-8": { text: "休假", type: "mark-2" }, "8-12": { text: "例假", type: "mark-2" }, 
+        "8-13": { text: "休假", type: "mark-2" }, "8-16": { text: "例假", type: "mark-2" }, "8-17": { text: "支援\n樹林\n篤行", type: "mark-1" }, "8-21": { text: "休假", type: "mark-2" }, 
+        "8-24": { text: "例假", type: "mark-2" }, "8-29": { text: "休假", type: "mark-2" }, "8-30": { text: "板橋\n中正", type: "mark-1" }, "8-31": { text: "板橋\n中正", type: "mark-1" },
+
+        "9-9": { text: "AM 02:50\n起飛\n韓國", type: "mark-2" }, "9-10": { text: "韓國", type: "mark-2" }, "9-11": { text: "韓國", type: "mark-2" }, "9-12": { text: "韓國", type: "mark-2" },
+        "9-13": { text: "AM 09:30\n起飛\n桃園", type: "mark-2" }, 
+
+        "9-1": { text: "例假", type: "mark-2" }, "9-2": { text: "支援\n板橋\n華江", type: "mark-1" }, "9-5": { text: "休假", type: "mark-2" }, "9-8": { text: "早", type: "mark-1" }, 
+        "9-15": { text: "支援\n板橋\n華江", type: "mark-1" }, "9-17": { text: "休假", type: "mark-2" }, "9-20": { text: "例假", type: "mark-2" }, "9-26": { text: "休假", type: "mark-2" }, 
+        "9-0": { text: "休\n假", type: "mark-1" }, "9-0": { text: "休\n假", type: "mark-1" },
+
+        "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" }, 
+        "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" }, 
+        "10-0": { text: "休\n假", type: "mark-1" }, "10-0": { text: "休\n假", type: "mark-1" },
+
+        "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" }, 
+        "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" }, 
+        "11-0": { text: "休\n假", type: "mark-1" }, "11-0": { text: "休\n假", type: "mark-1" },
+
+        "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" }, 
+        "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" }, 
+        "12-0": { text: "休\n假", type: "mark-1" }, "12-0": { text: "休\n假", type: "mark-1" },
+
+    "9-10": { text: "胖胖\n生日\n韓國", type: "mark-2" }, 
+// 這裡指定使用第二種顏色
+};
+
+    const months = ["一月", "二月", "三月", "四月", "五月", "六月", "七月 板橋中正", "八月 板橋中正", "九月 板橋文化", "十月", "十一月", "十二月"];
+    const dayNames = ["日", "一", "二", "三", "四", "五", "六"];
+
+    function renderSingleCalendar(containerId, displayId, dataSet, type) {
+        const container = document.getElementById(containerId);
+        const display = document.getElementById(displayId);
+        container.innerHTML = '';
+        display.innerText = `${viewYear}年 ${months[viewMonth]}`;
+
+        dayNames.forEach(name => {
+            const div = document.createElement('div');
+            div.className = 'day-header';
+            div.innerText = name;
+            container.appendChild(div);
+        });
+
+        const firstDay = new Date(viewYear, viewMonth, 1).getDay();
+        const daysInMonth = new Date(viewYear, viewMonth + 1, 0).getDate();
+
+        for (let i = 0; i < firstDay; i++) {
+            container.appendChild(Object.assign(document.createElement('div'), {className: 'day empty'}));
+        }
+
+        for (let day = 1; day <= daysInMonth; day++) {
+            const div = document.createElement('div');
+            div.className = 'day';
+            div.innerText = day;
+            const dateId = `${viewMonth + 1}-${day}`;
+            const dayOfWeek = new Date(viewYear, viewMonth, day).getDay();
+
+            if (viewYear === realYear && viewMonth === realMonth && day === realDay) {
+                div.classList.add('today');
+            }
+
+            if (dayOfWeek === 0 || dayOfWeek === 6) div.classList.add('weekend');
+
+            // 根據傳入的 dataSet 顯示標籤
+            // 在 renderSingleCalendar 函式內
+            if (dataSet[dateId]) {
+                // 如果資料中有設定 type，就使用對應的 CSS class
+                const typeClass = (dataSet[dateId].type === 'mark-2') ? 'custom-mark-2' : 'custom-mark';
+                div.classList.add(typeClass);
+    
+                const label = document.createElement('span');
+                label.className = 'label';
+                label.innerText = dataSet[dateId].text; // 讀取文字內容
+                div.appendChild(label);
+            }
+
+            container.appendChild(div);
+        }
+    }
+
+    function renderAll() {
+        renderSingleCalendar('days-container-1', 'month-display-1', holidays, 'holiday');
+        renderSingleCalendar('days-container-2', 'month-display-2', customHighlights, 'custom');
+    }
+
+    function changeMonth(step) {
+        viewMonth += step;
+        if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+        else if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+        renderAll();
+    }
+
+    function goToToday() {
+        viewYear = realYear;
+        viewMonth = realMonth;
+        renderAll();
+    }
+
+    renderAll();
+</script>
+<!---------------- 自定義 結束------------------------->
+
+
+<script src="templatemo-electric-scripts.js"></script>
+</body>
+</html>
