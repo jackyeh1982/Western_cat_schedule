@@ -306,7 +306,7 @@
                     <!-- 月曆主體 (100% 滿寬) -->
                     <div class="w-full glass-card rounded-2xl p-1.5 sm:p-4">
                         <!-- 星期列 (包含六日週末高亮提示) -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold mb-2">
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2">
                             <div class="py-1 text-rose-400 bg-rose-500/10 rounded">日</div>
                             <div class="py-1 text-slate-300">一</div>
                             <div class="py-1 text-slate-300">二</div>
@@ -374,7 +374,7 @@
                     <!-- 假日月曆主體 -->
                     <div class="w-full glass-card rounded-2xl p-1.5 sm:p-4">
                         <!-- 星期列 -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-xs font-bold mb-2">
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2">
                             <div class="py-1 text-rose-400 bg-rose-500/10 rounded">日</div>
                             <div class="py-1 text-slate-300">一</div>
                             <div class="py-1 text-slate-300">二</div>
@@ -841,7 +841,7 @@
 
             // 上個月補白
             for (let i = 0; i < firstDayOfWeek; i++) {
-                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[85px] sm:min-h-[100px]">.</div>`;
+                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[90px] sm:min-h-[110px]">.</div>`;
             }
 
             // 渲染當月每一天
@@ -854,7 +854,7 @@
                 const isToday = (isCurrentRealYear && isCurrentRealMonth && d === realTodayDate);
                 const event = eventMap[dateStr];
 
-                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[85px] sm:min-h-[100px] transition-all relative overflow-hidden ";
+                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[90px] sm:min-h-[110px] transition-all relative overflow-hidden ";
                 
                 if (isToday) {
                     cellClasses += "bg-slate-800/90 text-white font-extrabold ring-2 ring-cyan-400 shadow-neon-cyan z-10 ";
@@ -871,15 +871,15 @@
                 let eventBadgeHtml = '';
                 if (event) {
                     eventBadgeHtml = `
-                        <div class="mt-1 w-full text-[10px] sm:text-[11px] p-1 rounded leading-tight font-medium border break-all text-left shadow-sm event-${event.color}">
-                            <div class="font-bold line-clamp-2">${event.title}</div>
+                        <div class="mt-1 w-full text-xs sm:text-sm p-1 sm:p-1.5 rounded leading-tight font-bold border break-all text-left shadow-sm event-${event.color}">
+                            <div class="line-clamp-2">${event.title}</div>
                         </div>
                     `;
                 }
 
                 const dayDisplay = isToday 
-                    ? `<div class="flex justify-between items-center w-full"><span class="text-xs sm:text-sm font-extrabold text-cyan-400">${d}</span><span class="text-[9px] bg-cyan-500 text-slate-950 font-black px-1 rounded">今</span></div>`
-                    : `<span class="text-xs sm:text-sm font-bold text-left">${d}</span>`;
+                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-base font-extrabold text-cyan-400">${d}</span><span class="text-[10px] sm:text-xs bg-cyan-500 text-slate-950 font-black px-1.5 rounded">今</span></div>`
+                    : `<span class="text-sm sm:text-base font-bold text-left">${d}</span>`;
 
                 grid.innerHTML += `
                     <div class="${cellClasses}" ${clickAction}>
@@ -928,7 +928,7 @@
 
             // 上個月補白
             for (let i = 0; i < firstDayOfWeek; i++) {
-                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[85px] sm:min-h-[100px]">.</div>`;
+                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[90px] sm:min-h-[110px]">.</div>`;
             }
 
             // 渲染當月假日網格
@@ -941,7 +941,7 @@
                 const isToday = (isCurrentRealYear && isCurrentRealMonth && d === realTodayDate);
                 const holidayInfo = TAIWAN_HOLIDAYS_MAP_2026[dateStr];
 
-                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[85px] sm:min-h-[100px] transition-all relative overflow-hidden ";
+                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[90px] sm:min-h-[110px] transition-all relative overflow-hidden ";
                 
                 if (isToday) {
                     cellClasses += "bg-slate-800/90 text-white font-extrabold ring-2 ring-pink-400 shadow-neon-pink z-10 ";
@@ -958,15 +958,15 @@
                 let holidayBadgeHtml = '';
                 if (holidayInfo) {
                     holidayBadgeHtml = `
-                        <div class="mt-1 w-full text-[10px] sm:text-[11px] p-1 rounded leading-tight font-medium event-pink text-left shadow-sm">
-                            <div class="font-bold line-clamp-2">${holidayInfo.title}</div>
+                        <div class="mt-1 w-full text-xs sm:text-sm p-1 sm:p-1.5 rounded leading-tight font-bold event-pink text-left shadow-sm">
+                            <div class="line-clamp-2">${holidayInfo.title}</div>
                         </div>
                     `;
                 }
 
                 const dayDisplay = isToday 
-                    ? `<div class="flex justify-between items-center w-full"><span class="text-xs sm:text-sm font-extrabold text-pink-400">${d}</span><span class="text-[9px] bg-pink-500 text-slate-950 font-black px-1 rounded">今</span></div>`
-                    : `<span class="text-xs sm:text-sm font-bold text-left">${d}</span>`;
+                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-base font-extrabold text-pink-400">${d}</span><span class="text-[10px] sm:text-xs bg-pink-500 text-slate-950 font-black px-1.5 rounded">今</span></div>`
+                    : `<span class="text-sm sm:text-base font-bold text-left">${d}</span>`;
 
                 grid.innerHTML += `
                     <div class="${cellClasses}" ${clickAction}>
