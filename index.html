@@ -11,30 +11,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>----------</title>
-    <meta name="description" content="----------">  <!-- description 描述 -->
-    <meta name="keywords" content="----------">  <!-- keywords 關鍵字 -->
-    <meta name="author" content="----------">  <!-- author 作者 -->
-    <meta name="robots" content="index, follow">  <!-- robots 機器人 -->
+    <meta name="description" content="----------">
+    <meta name="keywords" content="----------">
+    <meta name="author" content="----------">
+    <meta name="robots" content="index, follow">
 
     <!-- Open Graph (OG) 社交媒體分享標籤 -->
-    <meta property="og:title" content="----------">  <!-- og:title 標題 -->
-    <meta property="og:description" content="----------">  <!-- description 描述 -->
-    <meta property="og:type" content="website">  <!-- type 類型 -->
-    <meta property="og:url" content="https://example.com/2026-calendar">  <!-- url 網址 -->
-    <meta property="og:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=2026+Calendar"> <!-- image 圖片 -->
-    <meta property="og:locale" content="zh_TW"> <!-- locale 區域設置 -->
+    <meta property="og:title" content="----------">
+    <meta property="og:description" content="----------">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://example.com/2026-calendar">
+    <meta property="og:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=2026+Calendar">
+    <meta property="og:locale" content="zh_TW">
 
     <!-- Twitter Card 標籤 -->
-    <meta name="twitter:card" content="summary_large_image">  <!-- 推特：卡片 -->
-    <meta name="twitter:title" content="----------">  <!-- 推特：標題 -->
-    <meta name="twitter:description" content="----------">  <!-- 推特：說明 -->
-    <meta name="twitter:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=2026+Calendar">  <!-- 推特：圖片 -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="----------">
+    <meta name="twitter:description" content="----------">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=2026+Calendar">
 
     <!-- PWA 與行動裝置相容性標籤 -->
-    <meta name="theme-color" content="#4f46e5">  <!-- 主題顏色 -->
-    <meta name="apple-mobile-web-app-capable" content="yes">  <!-- 支援蘋果行動網路應用 -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">  <!-- Apple 行動網頁應用程式狀態列樣式 -->
-    <meta name="apple-mobile-web-app-title" content="----------">  <!-- Apple 行動網頁應用程式標題 -->
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="----------">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -235,21 +235,14 @@
             <div class="w-full glass-panel md:rounded-2xl p-1.5">
                 <div class="flex overflow-x-auto no-scrollbar gap-2 w-full justify-between sm:justify-center">
                     <button onclick="switchTab(1)" id="tabBtn1" class="tab-btn active flex-1 min-w-[100px] py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 text-xs sm:text-sm font-semibold border border-transparent whitespace-nowrap transition-all">
-
                         <span>貓貓班表</span>
                     </button>
                     <button onclick="switchTab(2)" id="tabBtn2" class="tab-btn flex-1 min-w-[100px] py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 text-xs sm:text-sm font-semibold border border-transparent whitespace-nowrap text-slate-400 hover:text-cyan-400 transition-all">
-
                         <span>國定假日</span>
                     </button>
                     <button onclick="switchTab(3)" id="tabBtn3" class="tab-btn flex-1 min-w-[100px] py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 text-xs sm:text-sm font-semibold border border-transparent whitespace-nowrap text-slate-400 hover:text-cyan-400 transition-all">
-
                         <span>貓貓特休</span>
                     </button>
-        <!-----            <button onclick="switchTab(4)" id="tabBtn4" class="tab-btn flex-1 min-w-[100px] py-2.5 px-3 rounded-xl flex items-center justify-center space-x-1.5 text-xs sm:text-sm font-semibold border border-transparent whitespace-nowrap text-slate-400 hover:text-cyan-400 transition-all">   ----->
-
-        <!-----                       <span>暫無</span>   ----->
-        <!-----            </button>   ----->
                 </div>
             </div>
         </nav>
@@ -436,102 +429,102 @@
                     <!-- 特休條款與連結內容 (完整置中) -->
                     <div class="glass-card p-5 rounded-2xl space-y-4 text-xs leading-relaxed text-slate-300 w-full max-w-3xl text-center flex flex-col items-center">
                         
-                        <h3 class="text-sm font-bold text-white flex items-center justify-center gap-1.5 border-b border-slate-700/60 pb-2 w-full">
-                            <i class="fa-solid fa-circle-info text-cyan-400"></i> 請假規則提示
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-cyan-300 flex items-center justify-center gap-2 border-b border-slate-700/60 pb-3 w-full">
+                            <i class="fa-solid fa-circle-info text-cyan-400 text-2xl"></i> 請假規則提示
                         </h3>
 
-                        <div class="space-y-1 text-center">
-                            <p>年度特別休假日 <font color="#00DB00" class="font-bold"> 15 </font> 天</p>
-                            <p class="text-slate-400">計算起始日當年度至下年度：</p>
-                            <p class="font-mono text-cyan-300">20XX/4/6 (首日) 至 20XX/4/5 (尾日)</p>
+                        <div class="space-y-2 text-center text-base sm:text-xl font-bold py-2">
+                            <p class="text-white text-lg sm:text-2xl">年度特別休假日 <font color="#00DB00" class="font-extrabold text-2xl sm:text-3xl"> 15 </font> 天</p>
+                            <p class="text-slate-300 text-sm sm:text-lg">計算起始日當年度至下年度：</p>
+                            <p class="font-mono text-cyan-300 text-lg sm:text-2xl font-black bg-slate-900/80 py-2 px-4 rounded-xl border border-cyan-500/30 inline-block shadow-lg">20XX/4/6 (首日) 至 20XX/4/5 (尾日)</p>
                         </div>
 
                         <!-- 回報表單與主管電話 (置中) -->
-                        <div class="my-2 p-3 bg-slate-900/60 rounded-xl border border-slate-700/50 w-full max-w-md text-center space-y-1.5">
+                        <div class="my-2 p-4 bg-slate-900/80 rounded-2xl border border-slate-700/80 w-full max-w-md text-center space-y-2.5 shadow-xl">
                             <div>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSep_r4ye7pbrpHbfHNbH03dmJzIpgh7Ssurp01mKJmFeGh0ig/viewform?hl=zh_TW&amp;pli=1" target="_blank" class="inline-flex items-center gap-1.5 text-yellow-300 hover:text-yellow-200 font-semibold underline decoration-yellow-400/50 hover:decoration-yellow-300 transition-all">
-                                    <i class="fa-solid fa-file-pen"></i> 組裝三課請假回報表單
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSep_r4ye7pbrpHbfHNbH03dmJzIpgh7Ssurp01mKJmFeGh0ig/viewform?hl=zh_TW&amp;pli=1" target="_blank" class="inline-flex items-center gap-2 text-yellow-300 hover:text-yellow-200 text-base sm:text-lg font-black underline decoration-yellow-400 hover:decoration-yellow-300 transition-all">
+                                    <i class="fa-solid fa-file-pen text-lg"></i> 組裝三課請假回報表單
                                 </a>
                             </div>
-                            <div class="text-slate-300 text-[11px]">佳宏課長：<span class="font-mono text-white">0903133940</span></div>
-                            <div class="text-slate-300 text-[11px]">小豪組長：<span class="font-mono text-white">0903368917</span></div>
+                            <div class="text-slate-200 text-sm sm:text-base font-semibold">佳宏課長：<span class="font-mono text-white text-base sm:text-lg font-bold">0903133940</span></div>
+                            <div class="text-slate-200 text-sm sm:text-base font-semibold">小豪組長：<span class="font-mono text-white text-base sm:text-lg font-bold">0903368917</span></div>
                         </div>
 
                         <!-- 請假紀錄表格 (Table 內部全居中) -->
                         <div class="w-full overflow-x-auto mt-4">
-                            <table style="width: 100%; border-collapse: collapse;" border="1" class="text-center w-full mx-auto border-slate-700/60">
+                            <table style="width: 100%; border-collapse: collapse;" border="1" class="text-center w-full mx-auto border-slate-700/60 text-base sm:text-xl">
                                 <thead>
                                     <tr class="bg-slate-800/80 text-cyan-300 border-b border-slate-700">
-                                        <th style="width: 100%; text-align: center;" colspan="3" class="py-2.5 px-2 text-center">
-                                            <span style="color: #00db00;" class="font-mono font-bold">2026/4/6 &rarr; 2027/4/5 紀錄明細</span>
+                                        <th style="width: 100%; text-align: center;" colspan="3" class="py-3 px-2 text-center">
+                                            <span style="color: #00db00;" class="font-mono font-bold text-lg sm:text-2xl">2026/4/6 &rarr; 2027/4/5 紀錄明細</span>
                                         </th>
                                     </tr>
                                     <tr class="bg-slate-800/40 text-slate-300 border-b border-slate-700">
-                                        <th style="width: 33.33%; text-align: center;" class="py-2 px-1 text-center font-semibold">日期/說明</th>
-                                        <th style="width: 33.33%; text-align: center;" class="py-2 px-1 text-center font-semibold">扣抵天數</th> 
-                                        <th style="width: 33.33%; text-align: center;" class="py-2 px-1 text-center font-semibold">剩餘額度</th> 
+                                        <th style="width: 33.33%; text-align: center;" class="py-2.5 px-2 text-center font-bold text-base sm:text-xl">日期/說明</th>
+                                        <th style="width: 33.33%; text-align: center;" class="py-2.5 px-2 text-center font-bold text-base sm:text-xl">扣抵天數</th> 
+                                        <th style="width: 33.33%; text-align: center;" class="py-2.5 px-2 text-center font-bold text-base sm:text-xl">剩餘額度</th> 
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-800/80">
+                                <tbody class="divide-y divide-slate-800/80 font-medium">
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">04/06 首日</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">15</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">04/06 首日</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">15</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">04/22</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">14.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">04/22</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">14.5</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">05/08</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">14</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">05/08</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">14</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">05/18</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">13.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">05/18</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">13.5</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">06/04</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">13</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">06/04</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">13</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">06/12</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">12.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">06/12</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">12.5</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">07/15</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">12</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">07/15</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">12</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">08/03</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">1</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">11</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">08/03</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">1</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">11</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">08/19</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">10.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">08/19</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">10.5</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">09/09、10、11</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">3</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">7.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">09/09、10、11</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">3</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">7.5</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">10/08</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">7</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">10/08</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">7</span> 天</td> 
                                     </tr>
                                     <tr>
-                                        <td style="text-align: center;" class="py-2 px-1">04/05 尾日</td>
-                                        <td style="text-align: center;" class="py-2 px-1">特休 <span style="color: #00db00;" class="font-mono">0</span> 天</td> 
-                                        <td style="text-align: center;" class="py-2 px-1">餘 <span style="color: #00db00;" class="font-mono">7</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">04/05 尾日</td>
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-mono font-bold">0</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-mono font-bold">7</span> 天</td> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -566,28 +559,28 @@
 
     </div>
 
-    <!-- ==================== 行程詳細 Modal 彈窗 ==================== -->
-    <div id="eventModal" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-3">
-        <div class="glass-panel p-5 rounded-2xl max-w-xs w-full border border-slate-700 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContainer">
-            <button onclick="closeModal()" class="absolute top-3.5 right-3.5 text-slate-400 hover:text-white transition-colors">
-                <i class="fa-solid fa-xmark text-lg"></i>
+    <!-- ==================== 行程詳細 Modal 彈窗 (文字加大優化版) ==================== -->
+    <div id="eventModal" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
+        <div class="glass-panel p-6 rounded-2xl max-w-sm w-full border border-slate-700 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContainer">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1">
+                <i class="fa-solid fa-xmark text-xl"></i>
             </button>
-            <div class="flex items-center space-x-2 mb-2">
-                <span id="modalCategoryBadge" class="text-[10px] px-2 py-0.5 rounded font-semibold">標籤</span>
-                <span id="modalDate" class="text-xs font-mono text-slate-400">YYYY-MM-DD</span>
+            <div class="flex items-center space-x-2.5 mb-3">
+                <span id="modalCategoryBadge" class="text-xs px-2.5 py-1 rounded font-semibold">標籤</span>
+                <span id="modalDate" class="text-sm font-mono text-slate-300 font-bold">YYYY-MM-DD</span>
             </div>
-            <h3 id="modalTitle" class="text-lg font-bold text-white mb-2">行程名稱</h3>
-            <p id="modalDesc" class="text-slate-300 text-lg leading-relaxed mb-5">行程詳細內容說明...</p>
-            <button onclick="closeModal()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-white font-medium rounded-xl border border-slate-400 text-xs">
+            <h3 id="modalTitle" class="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-wide">行程名稱</h3>
+            <p id="modalDesc" class="text-slate-200 text-sm sm:text-base leading-relaxed mb-6">行程詳細內容說明...</p>
+            <button onclick="closeModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-500 text-sm sm:text-base transition-colors shadow-md">
                 關閉
             </button>
         </div>
     </div>
 
 
-    <!-- ========================================================================= -->
+    <!-- ========================================================= -->
     <!-- ======================== JAVASCRIPT 邏輯區塊 ======================== -->
-    <!-- ========================================================================= -->
+    <!-- ========================================================= -->
     <script>
         /* =========================================================
          * [修改區 1] 自定義倒數時間設定
@@ -609,24 +602,24 @@
 
             // Blue (日常班表 / 會議)
 
-<!----------  6月 ---------->
+            /* 6月 */
             { date: '2026-06-09', title: '支援', desc: '樹林中山。', color: 'blue' },
             { date: '2026-06-10', title: '支援', desc: '樹林中山。', color: 'blue' },
             { date: '2026-06-14', title: '支援', desc: '板橋四川。', color: 'blue' },
 
-<!----------  7月 ---------->
+            /* 7月 */
             { date: '2026-07-11', title: '支援', desc: '板橋文化。', color: 'blue' },
             { date: '2026-07-14', title: '支援', desc: '板橋華江。', color: 'blue' },
             { date: '2026-07-24', title: '支援', desc: '板橋文化。', color: 'blue' },
             { date: '2026-07-29', title: '支援', desc: '板橋華江。', color: 'blue' },
 
-<!----------  8月 ---------->
+            /* 8月 */
             { date: '2026-08-02', title: '支援', desc: '板橋文化。', color: 'blue' },
             { date: '2026-08-17', title: '支援', desc: '樹林篤行。', color: 'blue' },
             { date: '2026-08-30', title: '支援', desc: '板橋中正。', color: 'blue' },
             { date: '2026-08-31', title: '支援', desc: '板橋中正。', color: 'blue' },
 
-<!----------  9月 ---------->
+            /* 9月 */
             { date: '2026-09-02', title: '支援', desc: '板橋華江。', color: 'blue' },
             { date: '2026-09-15', title: '支援', desc: '板橋華江。', color: 'blue' },
             { date: '2026-09-29', title: '支援', desc: '板橋華江。', color: 'blue' },
@@ -634,7 +627,7 @@
 
             // Green (排休 / 休假)
 
-<!----------  4月 ---------->
+            /* 4月 */
             { date: '2026-05-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -647,7 +640,7 @@
             { date: '2026-05-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-<!----------  5月 ---------->
+            /* 5月 */
             { date: '2026-05-03', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -658,7 +651,7 @@
             { date: '2026-05-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-<!----------  6月 ---------->
+            /* 6月 */
             { date: '2026-06-03', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-15', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -669,7 +662,7 @@
             { date: '2026-06-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-<!----------  7月 ---------->
+            /* 7月 */
             { date: '2026-07-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -681,7 +674,7 @@
             { date: '2026-07-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-<!----------  8月 ---------->
+            /* 8月 */
             { date: '2026-08-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -691,7 +684,7 @@
             { date: '2026-08-24', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-29', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-<!----------  9月 ---------->
+            /* 9月 */
             { date: '2026-09-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-10', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -699,11 +692,8 @@
             { date: '2026-09-20', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-<!----------  10月 ---------->
+            /* 10月 */
             { date: '2026-10-02', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-07', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -809,14 +799,21 @@
             for (let i = 1; i <= 4; i++) {
                 const btn = document.getElementById(`tabBtn${i}`);
                 const content = document.getElementById(`tabContent${i}`);
-                if (i === index) {
-                    btn.classList.add('active');
-                    btn.classList.remove('text-slate-400');
-                    content.classList.remove('hidden');
-                } else {
-                    btn.classList.remove('active');
-                    btn.classList.add('text-slate-400');
-                    content.classList.add('hidden');
+                if (content) {
+                    if (i === index) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                }
+                if (btn) {
+                    if (i === index) {
+                        btn.classList.add('active');
+                        btn.classList.remove('text-slate-400');
+                    } else {
+                        btn.classList.remove('active');
+                        btn.classList.add('text-slate-400');
+                    }
                 }
             }
         }
@@ -1009,7 +1006,7 @@
             document.getElementById('modalDesc').innerText = info.desc;
 
             const badge = document.getElementById('modalCategoryBadge');
-            badge.className = 'text-[10px] px-2 py-0.5 rounded font-semibold event-pink';
+            badge.className = 'text-xs px-2.5 py-1 rounded font-semibold event-pink';
             badge.innerText = info.type || '國定假日';
 
             const modal = document.getElementById('eventModal');
@@ -1032,7 +1029,7 @@
             document.getElementById('modalDesc').innerText = event.desc;
 
             const badge = document.getElementById('modalCategoryBadge');
-            badge.className = 'text-[10px] px-2 py-0.5 rounded font-semibold ';
+            badge.className = 'text-xs px-2.5 py-1 rounded font-semibold ';
             
             const colorMap = {
                 red: '緊急 / 加班',
