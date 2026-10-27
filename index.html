@@ -10,31 +10,31 @@
     <!-- 基礎與 SEO Meta Tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>----------</title>
-    <meta name="description" content="----------">
-    <meta name="keywords" content="----------">
-    <meta name="author" content="----------">
+    <title>西洋貓 - 班表</title>
+    <meta name="description" content="西洋貓班表與特休管理平台">
+    <meta name="keywords" content="班表,特休,西洋貓,月曆">
+    <meta name="author" content="西洋貓">
     <meta name="robots" content="index, follow">
 
     <!-- Open Graph (OG) 社交媒體分享標籤 -->
-    <meta property="og:title" content="----------">
-    <meta property="og:description" content="----------">
+    <meta property="og:title" content="西洋貓 - 班表">
+    <meta property="og:description" content="西洋貓班表與特休管理平台">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://example.com/2026-calendar">
-    <meta property="og:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=2026+Calendar">
+    <meta property="og:url" content="https://example.com/calendar">
+    <meta property="og:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=Calendar">
     <meta property="og:locale" content="zh_TW">
 
     <!-- Twitter Card 標籤 -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="----------">
-    <meta name="twitter:description" content="----------">
-    <meta name="twitter:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=2026+Calendar">
+    <meta name="twitter:title" content="西洋貓 - 班表">
+    <meta name="twitter:description" content="西洋貓班表與特休管理平台">
+    <meta name="twitter:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=Calendar">
 
     <!-- PWA 與行動裝置相容性標籤 -->
     <meta name="theme-color" content="#4f46e5">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="----------">
+    <meta name="apple-mobile-web-app-title" content="西洋貓 - 班表">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -148,6 +148,27 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+
+        /* 手機端與小螢幕下，月曆文字橫向並列 2 字 */
+        .event-badge-text {
+            display: block;
+            word-break: break-all;
+            text-align: center;
+            min-width: 2.8em;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.25;
+            font-weight: normal !important; /* 取消粗體 */
+            padding-left: 2px;
+            padding-right: 2px;
+        }
+        @media (min-width: 640px) {
+            .event-badge-text {
+                max-width: 100%;
+                line-height: 1.25;
+            }
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between relative w-full overflow-x-hidden selection:bg-cyan-500 selection:text-black">
@@ -250,18 +271,18 @@
         <!-- ==================== 分頁內容區域 (手機滿寬) ==================== -->
         <main class="w-full flex-1">
             
-            <!-- 第 1 頁：班表 (2026年曆，加高儲存格以顯示更多文字) -->
+            <!-- 第 1 頁：班表 (支援自動跨年份) -->
             <section id="tabContent1" class="tab-content w-full transition-opacity duration-300">
                 <div class="w-full glass-panel md:rounded-3xl p-3 sm:p-6 border-slate-800">
                     
                     <!-- 導覽控制頂部：上個月 / 回到今天 / 下個月 -->
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
                         <div class="flex items-center space-x-2 w-full sm:w-auto justify-between">
-                            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                            <h2 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
                                 <span id="currentYearDisplay" class="text-cyan-400">2026</span> 年
                                 <span id="currentMonthDisplay" class="text-white">1</span> 月班表
                             </h2>
-                            <span id="todayBadge" class="text-[10px] bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full">
+                            <span id="todayBadge" class="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 px-2.5 py-0.5 rounded-full">
                                 今天高亮
                             </span>
                         </div>
@@ -284,40 +305,40 @@
                     </div>
 
                     <!-- 4種顏色標註圖例 -->
-                    <div class="flex flex-wrap gap-1.5 text-[11px] mb-4">
-                        <div class="flex items-center space-x-1 px-2 py-0.5 rounded event-red">
-                            <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                    <div class="flex flex-wrap gap-2 text-xs mb-4">
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-red font-medium">
+                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
                             <span>緊急/加班</span>
                         </div>
-                        <div class="flex items-center space-x-1 px-2 py-0.5 rounded event-blue">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-blue font-medium">
+                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
                             <span>日常班表</span>
                         </div>
-                        <div class="flex items-center space-x-1 px-2 py-0.5 rounded event-green">
-                            <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-green font-medium">
+                            <span class="w-2 h-2 rounded-full bg-green-500"></span>
                             <span>排休/休假</span>
                         </div>
-                        <div class="flex items-center space-x-1 px-2 py-0.5 rounded event-purple">
-                            <span class="w-1.5 h-1.5 rounded-full bg-purple-500"></span>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-purple font-medium">
+                            <span class="w-2 h-2 rounded-full bg-purple-500"></span>
                             <span>特殊/活動</span>
                         </div>
                     </div>
 
                     <!-- 月曆主體 (100% 滿寬) -->
                     <div class="w-full glass-card rounded-2xl p-1.5 sm:p-4">
-                        <!-- 星期列 (包含六日週末高亮提示) -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2">
-                            <div class="py-1 text-rose-400 bg-rose-500/10 rounded">日</div>
-                            <div class="py-1 text-slate-300">一</div>
-                            <div class="py-1 text-slate-300">二</div>
-                            <div class="py-1 text-slate-300">三</div>
-                            <div class="py-1 text-slate-300">四</div>
-                            <div class="py-1 text-slate-300">五</div>
-                            <div class="py-1 text-rose-400 bg-rose-500/10 rounded">六</div>
+                        <!-- 星期列 -->
+                        <div class="grid grid-cols-7 gap-1 text-center text-base sm:text-xl font-extrabold mb-2">
+                            <div class="py-1.5 text-rose-400 bg-rose-500/10 rounded">日</div>
+                            <div class="py-1.5 text-slate-300">一</div>
+                            <div class="py-1.5 text-slate-300">二</div>
+                            <div class="py-1.5 text-slate-300">三</div>
+                            <div class="py-1.5 text-slate-300">四</div>
+                            <div class="py-1.5 text-slate-300">五</div>
+                            <div class="py-1.5 text-rose-400 bg-rose-500/10 rounded">六</div>
                         </div>
 
-                        <!-- 日期網格 (加高以符合文字顯現) -->
-                        <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center text-xs">
+                        <!-- 日期網格 -->
+                        <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center">
                             <!-- 由 JS 動態生成月曆數字與自定義文字卡片 -->
                         </div>
                     </div>
@@ -325,7 +346,7 @@
                 </div>
             </section>
 
-            <!-- 第 2 頁：台灣國定假日 (更新為月曆形式) -->
+            <!-- 第 2 頁：台灣國定假日 (支援自動跨年份與多年份假日計算) -->
             <section id="tabContent2" class="tab-content w-full hidden transition-opacity duration-300">
                 <div class="w-full glass-panel md:rounded-3xl p-3 sm:p-6 border-slate-800">
                     
@@ -399,7 +420,7 @@
                     
                     <!-- 標題與簡介 (置中) -->
                     <div class="mb-5 pb-3 border-b border-slate-800 w-full flex flex-col items-center">
-                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs rounded-full font-mono mb-2">2026 年度</span>
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs rounded-full font-mono mb-2">2026-2027 年度</span>
                         <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center justify-center gap-2">
                             <i class="fa-solid fa-cat text-cyan-400"></i> 犀利貓特休專區
                         </h2>
@@ -436,7 +457,7 @@
                         <div class="space-y-2 text-center text-base sm:text-xl font-bold py-2">
                             <p class="text-white text-lg sm:text-2xl">年度特別休假日 <font color="#00DB00" class="font-extrabold text-2xl sm:text-3xl"> 15 </font> 天</p>
                             <p class="text-slate-300 text-sm sm:text-lg">計算起始日當年度至下年度：</p>
-                            <p class="font-mono text-cyan-300 text-lg sm:text-2xl font-black bg-slate-900/80 py-2 px-4 rounded-xl border border-cyan-500/30 inline-block shadow-lg">20XX/4/6 (首日) 至 20XX/4/5 (尾日)</p>
+                            <p class="font-mono text-cyan-300 text-lg sm:text-2xl font-black bg-slate-900/80 py-2 px-4 rounded-xl border border-cyan-500/30 inline-block shadow-lg">2026/4/6 (首日) 至 2027/4/5 (尾日)</p>
                         </div>
 
                         <!-- 回報表單與主管電話 (置中) -->
@@ -554,7 +575,7 @@
 
         <!-- ==================== 頁尾 FOOTER ==================== -->
         <footer class="w-full text-center text-[11px] text-slate-500 py-6 border-t border-slate-800/60 mt-6">
-            <p>© 2026 Cyber Control Platform · 100% Mobile Full-Width Responsive</p>
+            <p>© Cyber Control Platform · Auto Cross-Year Interactive Calendar</p>
         </footer>
 
     </div>
@@ -565,13 +586,14 @@
             <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1">
                 <i class="fa-solid fa-xmark text-xl"></i>
             </button>
-            <div class="flex items-center space-x-2.5 mb-3">
-                <span id="modalCategoryBadge" class="text-xs px-2.5 py-1 rounded font-semibold">標籤</span>
-                <span id="modalDate" class="text-sm font-mono text-slate-300 font-bold">YYYY-MM-DD</span>
+            <div class="flex items-center space-x-2.5 mb-2">
+                <span id="modalDate" class="text-sm font-mono text-cyan-400 font-bold">YYYY-MM-DD</span>
             </div>
-            <h3 id="modalTitle" class="text-xl sm:text-2xl font-extrabold text-white mb-3 tracking-wide">行程名稱</h3>
-            <p id="modalDesc" class="text-slate-200 text-sm sm:text-base leading-relaxed mb-6">行程詳細內容說明...</p>
-            <button onclick="closeModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-500 text-sm sm:text-base transition-colors shadow-md">
+            <!-- 多行程內容列表容器 -->
+            <div id="modalEventList" class="space-y-3 my-4 max-h-[60vh] overflow-y-auto no-scrollbar pr-1">
+                <!-- 由 JS 動態生成多個行程卡片 -->
+            </div>
+            <button onclick="closeModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-500 text-sm sm:text-base transition-colors shadow-md mt-2">
                 關閉
             </button>
         </div>
@@ -591,16 +613,14 @@
         };
 
         /* =========================================================
-         * [修改區 2] 2026班表 / 行程自定義標註
+         * [修改區 2] 班表 / 行程自定義標註 (支援同一天多個行程)
          * color 顏色可選: 'red' | 'blue' | 'green' | 'purple'
          * ========================================================= */
         const CONFIG_EVENTS = [
-            // Red (緊急 / 加班)
+            // 2026年
             { date: '2026-01-01', title: '元旦跨年派對', desc: '迎接 2026 第一天！', color: 'red' },
             { date: '2026-02-16', title: '除夕團圓夜', desc: '家族年夜飯聚餐。', color: 'red' },
             { date: '2026-05-20', title: '系統年度維護', desc: '凌晨核心資料庫更新。', color: 'red' },
-
-            // Blue (日常班表 / 會議)
 
             /* 6月 */
             { date: '2026-06-09', title: '支援', desc: '樹林中山。', color: 'blue' },
@@ -625,9 +645,7 @@
             { date: '2026-09-29', title: '支援', desc: '板橋華江。', color: 'blue' },
             { date: '2026-09-30', title: '支援', desc: '板橋華江。', color: 'blue' },
 
-            // Green (排休 / 休假)
-
-            /* 4月 */
+            /* 排休行程 */
             { date: '2026-05-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -640,29 +658,16 @@
             { date: '2026-05-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            /* 5月 */
-            { date: '2026-05-03', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-13', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-16', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-19', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-23', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-
-            /* 6月 */
             { date: '2026-06-03', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-15', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-16', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-11', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-06-15', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-06-16', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-22', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            /* 7月 */
             { date: '2026-07-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -674,7 +679,6 @@
             { date: '2026-07-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            /* 8月 */
             { date: '2026-08-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -684,7 +688,6 @@
             { date: '2026-08-24', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-29', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            /* 9月 */
             { date: '2026-09-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-10', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -693,7 +696,6 @@
             { date: '2026-09-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            /* 10月 */
             { date: '2026-10-02', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-07', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -705,16 +707,23 @@
             { date: '2026-10-25', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-28', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            // Purple (特殊 / 活動)
+            /* 生日行程 */
             { date: '2026-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
             { date: '2026-10-23', title: '胖胖生日', desc: '犀利貓生日。', color: 'purple' },
 
+            // 2027年 範例資料
+            { date: '2027-01-01', title: '2027元旦快樂', desc: '跨越到 2027 新的一年！', color: 'red' },
+            { date: '2027-02-06', title: '2027農曆除夕', desc: '2027 圍爐慶團圓', color: 'red' },
+            { date: '2027-09-10', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2027-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
+            { date: '2027-10-23', title: '胖胖生日', desc: '犀利貓生日。', color: 'purple' }
         ];
 
         /* =========================================================
-         * [資料區] 2026 台灣國定假日 (對應日期列表)
+         * [資料區] 台灣國定假日 (動態支援跨年份生成)
          * ========================================================= */
-        const TAIWAN_HOLIDAYS_MAP_2026 = {
+        const TAIWAN_HOLIDAYS_MAP = {
+            // 2026 國定假日
             '2026-01-01': { title: '中華民國開國紀念日', desc: '元旦放假一天', type: '國定假日' },
             '2026-02-14': { title: '農曆春節假期', desc: '春節連假首日', type: '連續假期' },
             '2026-02-15': { title: '農曆春節假期', desc: '春節連假', type: '連續假期' },
@@ -742,9 +751,41 @@
             '2026-10-10': { title: '國慶日', desc: '中華民國國慶日', type: '國定假日' },
             '2026-10-11': { title: '國慶連假', desc: '國慶日假期', type: '連續假期' },
             '2026-10-12': { title: '國慶日補假', desc: '國慶日補假一天', type: '連續假期' },
-            '2026-12-25': { title: '行憲紀念', desc: '行憲紀念日', type: '連續假期' },
+            '2026-12-25': { title: '行憲紀念', desc: '行憲紀念日', type: '特定節日' },
+
+            // 2027 國定假日 (跨年自動獲取與展示)
+            '2027-01-01': { title: '中華民國開國紀念日', desc: '元旦放假一天', type: '國定假日' },
+            '2027-02-06': { title: '農曆除夕', desc: '農曆除夕圍爐團圓', type: '國定假日' },
+            '2027-02-07': { title: '春節 (大年初一)', desc: '農曆正月初一', type: '國定假日' },
+            '2027-02-08': { title: '春節 (大年初二)', desc: '農曆正月初二回娘家', type: '國定假日' },
+            '2027-02-09': { title: '春節 (大年初三)', desc: '農曆正月初三', type: '國定假日' },
+            '2027-02-28': { title: '和平紀念日', desc: '228 和平紀念日', type: '國定假日' },
+            '2027-04-04': { title: '兒童節', desc: '兒童節放假', type: '國定假日' },
+            '2027-04-05': { title: '清明節', desc: '民族掃墓節', type: '國定假日' },
+            '2027-05-01': { title: '勞動節', desc: '勞工節放假', type: '特定節日' },
+            '2027-06-09': { title: '端午節', desc: '農曆五月初五端午節', type: '國定假日' },
+            '2027-09-15': { title: '中秋節', desc: '農曆八月十五中秋節', type: '國定假日' },
+            '2027-10-10': { title: '國慶日', desc: '中華民國國慶日', type: '國定假日' }
         };
 
+        // 為未手動設定的年份提供通用陽曆國定假日（如2028年以後）
+        function getHolidayInfo(dateStr) {
+            if (TAIWAN_HOLIDAYS_MAP[dateStr]) {
+                return TAIWAN_HOLIDAYS_MAP[dateStr];
+            }
+            const [y, m, d] = dateStr.split('-');
+            const md = `${m}-${d}`;
+            const fixedHolidays = {
+                '01-01': { title: '元旦 / 開國紀念日', desc: '元旦放假一天', type: '國定假日' },
+                '02-28': { title: '和平紀念日', desc: '228 和平紀念日', type: '國定假日' },
+                '04-04': { title: '兒童節', desc: '兒童節放假', type: '國定假日' },
+                '04-05': { title: '清明節', desc: '民族掃墓節', type: '國定假日' },
+                '05-01': { title: '勞動節', desc: '勞工節', type: '特定節日' },
+                '10-10': { title: '國慶日', desc: '中華民國國慶日', type: '國定假日' },
+                '12-25': { title: '行憲紀念日', desc: '行憲紀念日', type: '特定節日' }
+            };
+            return fixedHolidays[md] || null;
+        }
 
         /* =========================================================
          * 全域狀態與控制邏輯
@@ -756,6 +797,26 @@
         // 第 2 頁 (國定假日) 月曆狀態
         let holidayYear = 2026;
         let holidayMonth = 1;
+
+        // 第 1 頁：班表月曆按鈕控制 (跨年份進退與重置)
+        function changeMonth(delta) {
+            activeMonth += delta;
+            if (activeMonth > 12) {
+                activeMonth = 1;
+                activeYear++;
+            } else if (activeMonth < 1) {
+                activeMonth = 12;
+                activeYear--;
+            }
+            renderCalendar();
+        }
+
+        function resetToToday() {
+            const today = new Date();
+            activeYear = today.getFullYear();
+            activeMonth = today.getMonth() + 1;
+            renderCalendar();
+        }
 
         // 1. 時鐘與倒數更新
         function updateClocks() {
@@ -818,7 +879,7 @@
             }
         }
 
-        // 3. 第 1 頁：班表月曆渲染核心
+        // 3. 第 1 頁：班表月曆渲染核心 (支援同一天多個行程顯示，字體不加粗並完整顯示全部文字)
         function renderCalendar() {
             document.getElementById('currentYearDisplay').innerText = activeYear;
             document.getElementById('currentMonthDisplay').innerText = activeMonth;
@@ -831,9 +892,14 @@
             const isCurrentRealMonth = (today.getMonth() + 1 === activeMonth);
             const realTodayDate = today.getDate();
 
-            // 事件對照 Map
+            // 將行程轉為 key-array 映射，支援同一天有多個行程
             const eventMap = {};
-            CONFIG_EVENTS.forEach(ev => { eventMap[ev.date] = ev; });
+            CONFIG_EVENTS.forEach(ev => { 
+                if (!eventMap[ev.date]) {
+                    eventMap[ev.date] = [];
+                }
+                eventMap[ev.date].push(ev); 
+            });
 
             // 當月一號星期與總天數
             const firstDayOfWeek = new Date(activeYear, activeMonth - 1, 1).getDay();
@@ -841,7 +907,7 @@
 
             // 上個月補白
             for (let i = 0; i < firstDayOfWeek; i++) {
-                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[90px] sm:min-h-[110px]">.</div>`;
+                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[110px] sm:min-h-[135px]">.</div>`;
             }
 
             // 渲染當月每一天
@@ -852,34 +918,39 @@
                 
                 const dateStr = `${activeYear}-${String(activeMonth).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const isToday = (isCurrentRealYear && isCurrentRealMonth && d === realTodayDate);
-                const event = eventMap[dateStr];
+                const eventsList = eventMap[dateStr] || [];
 
-                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[90px] sm:min-h-[110px] transition-all relative overflow-hidden ";
+                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[110px] sm:min-h-[135px] transition-all relative overflow-hidden ";
                 
                 if (isToday) {
-                    cellClasses += "bg-slate-800/90 text-white font-extrabold ring-2 ring-cyan-400 shadow-neon-cyan z-10 ";
-                } else if (event) {
-                    cellClasses += "glass-card font-bold cursor-pointer hover:border-cyan-400/60 ";
+                    cellClasses += "bg-slate-800/90 text-white ring-2 ring-cyan-400 shadow-neon-cyan z-10 ";
+                } else if (eventsList.length > 0) {
+                    cellClasses += "glass-card cursor-pointer hover:border-cyan-400/60 ";
                 } else if (isWeekend) {
-                    cellClasses += "weekend-cell font-semibold hover:bg-rose-500/20 ";
+                    cellClasses += "weekend-cell hover:bg-rose-500/20 ";
                 } else {
                     cellClasses += "text-slate-200 hover:bg-slate-800/80 ";
                 }
 
-                const clickAction = event ? `onclick="openModal('${dateStr}')"` : '';
+                const clickAction = eventsList.length > 0 ? `onclick="openModal('${dateStr}')"` : '';
                 
+                // 動態生成所有行程標籤
                 let eventBadgeHtml = '';
-                if (event) {
-                    eventBadgeHtml = `
-                        <div class="mt-1 w-full text-xs sm:text-sm p-1 sm:p-1.5 rounded leading-tight font-bold border break-all text-left shadow-sm event-${event.color}">
-                            <div class="line-clamp-2">${event.title}</div>
-                        </div>
-                    `;
+                if (eventsList.length > 0) {
+                    eventBadgeHtml = `<div class="mt-1 space-y-1 w-full flex flex-col items-center">`;
+                    eventsList.forEach(ev => {
+                        eventBadgeHtml += `
+                            <div class="w-full text-[11px] sm:text-xs py-0.5 px-1 rounded font-normal border shadow-md event-${ev.color} event-badge-text">
+                                ${ev.title}
+                            </div>
+                        `;
+                    });
+                    eventBadgeHtml += `</div>`;
                 }
 
                 const dayDisplay = isToday 
-                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-base font-extrabold text-cyan-400">${d}</span><span class="text-[10px] sm:text-xs bg-cyan-500 text-slate-950 font-black px-1.5 rounded">今</span></div>`
-                    : `<span class="text-sm sm:text-base font-bold text-left">${d}</span>`;
+                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-xl font-black text-cyan-400">${d}</span><span class="text-[9px] sm:text-xs bg-cyan-500 text-slate-950 font-bold px-1 py-0.5 rounded">今</span></div>`
+                    : `<span class="text-sm sm:text-xl font-bold text-left">${d}</span>`;
 
                 grid.innerHTML += `
                     <div class="${cellClasses}" ${clickAction}>
@@ -890,27 +961,7 @@
             }
         }
 
-        // 第 1 頁：月曆按鈕控制
-        function changeMonth(delta) {
-            activeMonth += delta;
-            if (activeMonth > 12) {
-                activeMonth = 1;
-                activeYear++;
-            } else if (activeMonth < 1) {
-                activeMonth = 12;
-                activeYear--;
-            }
-            renderCalendar();
-        }
-
-        function resetToToday() {
-            const today = new Date();
-            activeYear = today.getFullYear();
-            activeMonth = today.getMonth() + 1;
-            renderCalendar();
-        }
-
-        // 4. 第 2 頁：國定假日月曆渲染核心
+        // 4. 第 2 頁：國定假日月曆渲染核心 (加大字體版)
         function renderHolidayCalendar() {
             document.getElementById('holidayYearDisplay').innerText = holidayYear;
             document.getElementById('holidayMonthDisplay').innerText = holidayMonth;
@@ -928,7 +979,7 @@
 
             // 上個月補白
             for (let i = 0; i < firstDayOfWeek; i++) {
-                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[90px] sm:min-h-[110px]">.</div>`;
+                grid.innerHTML += `<div class="p-1 opacity-20 text-slate-600 min-h-[110px] sm:min-h-[135px]">.</div>`;
             }
 
             // 渲染當月假日網格
@@ -939,16 +990,16 @@
                 
                 const dateStr = `${holidayYear}-${String(holidayMonth).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const isToday = (isCurrentRealYear && isCurrentRealMonth && d === realTodayDate);
-                const holidayInfo = TAIWAN_HOLIDAYS_MAP_2026[dateStr];
+                const holidayInfo = getHolidayInfo(dateStr);
 
-                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[90px] sm:min-h-[110px] transition-all relative overflow-hidden ";
+                let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[110px] sm:min-h-[135px] transition-all relative overflow-hidden ";
                 
                 if (isToday) {
-                    cellClasses += "bg-slate-800/90 text-white font-extrabold ring-2 ring-pink-400 shadow-neon-pink z-10 ";
+                    cellClasses += "bg-slate-800/90 text-white ring-2 ring-pink-400 shadow-neon-pink z-10 ";
                 } else if (holidayInfo) {
-                    cellClasses += "glass-card font-bold border-pink-500/50 bg-pink-500/10 cursor-pointer hover:border-pink-400 ";
+                    cellClasses += "glass-card border-pink-500/50 bg-pink-500/10 cursor-pointer hover:border-pink-400 ";
                 } else if (isWeekend) {
-                    cellClasses += "weekend-cell font-semibold hover:bg-rose-500/20 ";
+                    cellClasses += "weekend-cell hover:bg-rose-500/20 ";
                 } else {
                     cellClasses += "text-slate-200 hover:bg-slate-800/80 ";
                 }
@@ -958,15 +1009,15 @@
                 let holidayBadgeHtml = '';
                 if (holidayInfo) {
                     holidayBadgeHtml = `
-                        <div class="mt-1 w-full text-xs sm:text-sm p-1 sm:p-1.5 rounded leading-tight font-bold event-pink text-left shadow-sm">
-                            <div class="line-clamp-2">${holidayInfo.title}</div>
+                        <div class="mt-1 w-full text-[11px] sm:text-xs py-0.5 px-1 rounded font-normal event-pink shadow-md event-badge-text">
+                            ${holidayInfo.title}
                         </div>
                     `;
                 }
 
                 const dayDisplay = isToday 
-                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-base font-extrabold text-pink-400">${d}</span><span class="text-[10px] sm:text-xs bg-pink-500 text-slate-950 font-black px-1.5 rounded">今</span></div>`
-                    : `<span class="text-sm sm:text-base font-bold text-left">${d}</span>`;
+                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-xl font-black text-pink-400">${d}</span><span class="text-[9px] sm:text-xs bg-pink-500 text-slate-950 font-bold px-1 py-0.5 rounded">今</span></div>`
+                    : `<span class="text-sm sm:text-xl font-bold text-left">${d}</span>`;
 
                 grid.innerHTML += `
                     <div class="${cellClasses}" ${clickAction}>
@@ -977,7 +1028,7 @@
             }
         }
 
-        // 第 2 頁：假日月曆按鈕控制
+        // 第 2 頁：假日月曆按鈕控制 (跨年份進退邏輯)
         function changeHolidayMonth(delta) {
             holidayMonth += delta;
             if (holidayMonth > 12) {
@@ -998,16 +1049,20 @@
         }
 
         function openHolidayModal(dateStr) {
-            const info = TAIWAN_HOLIDAYS_MAP_2026[dateStr];
+            const info = getHolidayInfo(dateStr);
             if (!info) return;
 
             document.getElementById('modalDate').innerText = dateStr;
-            document.getElementById('modalTitle').innerText = info.title;
-            document.getElementById('modalDesc').innerText = info.desc;
-
-            const badge = document.getElementById('modalCategoryBadge');
-            badge.className = 'text-xs px-2.5 py-1 rounded font-semibold event-pink';
-            badge.innerText = info.type || '國定假日';
+            const modalList = document.getElementById('modalEventList');
+            modalList.innerHTML = `
+                <div class="p-3 rounded-xl glass-card border border-pink-500/30">
+                    <div class="flex items-center space-x-2 mb-1.5">
+                        <span class="text-xs px-2.5 py-0.5 rounded font-normal event-pink">${info.type || '國定假日'}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-1">${info.title}</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed">${info.desc}</p>
+                </div>
+            `;
 
             const modal = document.getElementById('eventModal');
             const container = document.getElementById('modalContainer');
@@ -1019,27 +1074,34 @@
             }, 10);
         }
 
-        // 5. Modal 彈窗控制
+        // 5. Modal 彈窗控制 (支援展示當天多個行程)
         function openModal(dateStr) {
-            const event = CONFIG_EVENTS.find(e => e.date === dateStr);
-            if (!event) return;
+            const events = CONFIG_EVENTS.filter(e => e.date === dateStr);
+            if (!events || events.length === 0) return;
 
-            document.getElementById('modalDate').innerText = event.date;
-            document.getElementById('modalTitle').innerText = event.title;
-            document.getElementById('modalDesc').innerText = event.desc;
+            document.getElementById('modalDate').innerText = dateStr;
+            const modalList = document.getElementById('modalEventList');
+            modalList.innerHTML = '';
 
-            const badge = document.getElementById('modalCategoryBadge');
-            badge.className = 'text-xs px-2.5 py-1 rounded font-semibold ';
-            
             const colorMap = {
                 red: '緊急 / 加班',
                 blue: '日常班表',
                 green: '排休 / 休假',
                 purple: '特殊 / 活動'
             };
-            
-            badge.innerText = colorMap[event.color] || '行程標籤';
-            badge.classList.add(`event-${event.color}`);
+
+            events.forEach(event => {
+                const categoryName = colorMap[event.color] || '行程標籤';
+                modalList.innerHTML += `
+                    <div class="p-3 rounded-xl glass-card border border-slate-700/80 text-left">
+                        <div class="flex items-center space-x-2 mb-1.5">
+                            <span class="text-xs px-2.5 py-0.5 rounded font-normal event-${event.color}">${categoryName}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white mb-1">${event.title}</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">${event.desc}</p>
+                    </div>
+                `;
+            });
 
             const modal = document.getElementById('eventModal');
             const container = document.getElementById('modalContainer');
@@ -1060,21 +1122,16 @@
             setTimeout(() => { modal.classList.add('hidden'); }, 300);
         }
 
-        // 頁面初始化
+        // 頁面初始化 (自動取得當前實際年月)
         window.onload = function() {
             updateClocks();
             setInterval(updateClocks, 1000);
             
             const now = new Date();
-            if (now.getFullYear() === 2026) {
-                activeMonth = now.getMonth() + 1;
-                holidayMonth = now.getMonth() + 1;
-            } else {
-                activeYear = 2026;
-                activeMonth = 1;
-                holidayYear = 2026;
-                holidayMonth = 1;
-            }
+            activeYear = now.getFullYear();
+            activeMonth = now.getMonth() + 1;
+            holidayYear = now.getFullYear();
+            holidayMonth = now.getMonth() + 1;
 
             renderCalendar();
             renderHolidayCalendar();
