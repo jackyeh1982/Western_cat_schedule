@@ -140,7 +140,15 @@
             color: #fb7185;
         }
 
-        /* 隱藏/自訂滾動條 */
+        /* 全局與特定元素隱藏滾動條 */
+        * {
+            -ms-overflow-style: none !important;  /* IE and Edge */
+            scrollbar-width: none !important;  /* Firefox */
+        }
+        *::-webkit-scrollbar {
+            display: none !important;  /* Chrome, Safari and Opera */
+        }
+
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
@@ -623,29 +631,30 @@
             { date: '2026-05-20', title: '系統年度維護', desc: '凌晨核心資料庫更新。', color: 'red' },
 
             /* 6月 */
-            { date: '2026-06-09', title: '支援', desc: '樹林中山。', color: 'blue' },
-            { date: '2026-06-10', title: '支援', desc: '樹林中山。', color: 'blue' },
-            { date: '2026-06-14', title: '支援', desc: '板橋四川。', color: 'blue' },
+            { date: '2026-06-09', title: '支援樹林中山', desc: '樹林中山。', color: 'blue' },
+            { date: '2026-06-10', title: '支援樹林中山', desc: '樹林中山。', color: 'blue' },
+            { date: '2026-06-14', title: '支援板橋四川', desc: '板橋四川。', color: 'blue' },
 
             /* 7月 */
-            { date: '2026-07-11', title: '支援', desc: '板橋文化。', color: 'blue' },
-            { date: '2026-07-14', title: '支援', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-07-24', title: '支援', desc: '板橋文化。', color: 'blue' },
-            { date: '2026-07-29', title: '支援', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-07-11', title: '支援板橋文化', desc: '板橋文化。', color: 'blue' },
+            { date: '2026-07-14', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-07-24', title: '支援板橋文化', desc: '板橋文化。', color: 'blue' },
+            { date: '2026-07-29', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
 
             /* 8月 */
-            { date: '2026-08-02', title: '支援', desc: '板橋文化。', color: 'blue' },
-            { date: '2026-08-17', title: '支援', desc: '樹林篤行。', color: 'blue' },
-            { date: '2026-08-30', title: '支援', desc: '板橋中正。', color: 'blue' },
-            { date: '2026-08-31', title: '支援', desc: '板橋中正。', color: 'blue' },
+            { date: '2026-08-02', title: '支援板橋文化', desc: '板橋文化。', color: 'blue' },
+            { date: '2026-08-17', title: '支援樹林篤行', desc: '樹林篤行。', color: 'blue' },
+            { date: '2026-08-30', title: '支援板橋中正', desc: '板橋中正。', color: 'blue' },
+            { date: '2026-08-31', title: '支援板橋中正', desc: '板橋中正。', color: 'blue' },
 
             /* 9月 */
-            { date: '2026-09-02', title: '支援', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-09-15', title: '支援', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-09-29', title: '支援', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-09-30', title: '支援', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-09-02', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-09-15', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-09-29', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-09-30', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
 
             /* 排休行程 */
+            /* 5月 */
             { date: '2026-05-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -658,6 +667,7 @@
             { date: '2026-05-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-05-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
+            /* 6月 */
             { date: '2026-06-03', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-11', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -668,6 +678,7 @@
             { date: '2026-06-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
+            /*79月 */
             { date: '2026-07-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -679,6 +690,7 @@
             { date: '2026-07-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
+            /* 8月 */
             { date: '2026-08-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -688,6 +700,7 @@
             { date: '2026-08-24', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-08-29', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
+            /* 9月 */
             { date: '2026-09-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-10', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -696,6 +709,7 @@
             { date: '2026-09-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-09-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
+            /* 10月 */
             { date: '2026-10-02', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-07', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -754,20 +768,39 @@
             '2026-12-25': { title: '行憲紀念', desc: '行憲紀念日', type: '特定節日' },
 
             // 2027 國定假日 (跨年自動獲取與展示)
-            '2027-01-01': { title: '中華民國開國紀念日', desc: '元旦放假一天', type: '國定假日' },
-            '2027-02-06': { title: '農曆除夕', desc: '農曆除夕圍爐團圓', type: '國定假日' },
-            '2027-02-07': { title: '春節 (大年初一)', desc: '農曆正月初一', type: '國定假日' },
-            '2027-02-08': { title: '春節 (大年初二)', desc: '農曆正月初二回娘家', type: '國定假日' },
-            '2027-02-09': { title: '春節 (大年初三)', desc: '農曆正月初三', type: '國定假日' },
+            '2027-01-01': { title: '中華民國開國紀念日', desc: '元旦放假一天', type: '連續假期' },
+
+            '2027-02-04': { title: '小年夜', desc: '春節連假首日', type: '連續假期' },
+            '2027-02-05': { title: '立春除夕', desc: '春節連假', type: '連續假期' },
+            '2027-02-06': { title: '正月', desc: '春節連假', type: '連續假期' },
+            '2027-02-07': { title: '初二', desc: '春節連假', type: '連續假期' },
+            '2027-02-08': { title: '初三', desc: '春節連假', type: '連續假期' },
+            '2027-02-09': { title: '初四', desc: '春節連假', type: '連續假期' },
+            '2027-02-10': { title: '初五', desc: '春節連假', type: '連續假期' },
+
             '2027-02-28': { title: '和平紀念日', desc: '228 和平紀念日', type: '國定假日' },
+            '2027-03-01': { title: '228 補假', desc: '228 和平紀念日', type: '連續假期' },
+
             '2027-04-04': { title: '兒童節', desc: '兒童節放假', type: '國定假日' },
             '2027-04-05': { title: '清明節', desc: '民族掃墓節', type: '國定假日' },
-            '2027-05-01': { title: '勞動節', desc: '勞工節放假', type: '特定節日' },
-            '2027-06-09': { title: '端午節', desc: '農曆五月初五端午節', type: '國定假日' },
-            '2027-09-15': { title: '中秋節', desc: '農曆八月十五中秋節', type: '國定假日' },
-            '2027-10-10': { title: '國慶日', desc: '中華民國國慶日', type: '國定假日' }
-        };
+            '2027-04-06': { title: '兒童節補假', desc: '兒童節與清明節連假', type: '連續假期' },
 
+            '2027-04-30': { title: '勞動節補假', desc: '勞工節放假', type: '補假一日' },
+            '2027-05-01': { title: '勞動節', desc: '勞工節放假', type: '特定節日' },
+
+            '2027-06-09': { title: '端午節', desc: '農曆五月初五端午節', type: '國定假日' },
+
+            '2027-09-15': { title: '中秋節', desc: '農曆八月十五中秋節', type: '國定假日' },
+            '2027-09-28': { title: '教師節', desc: '至聖先師孔子誕辰紀念日', type: '國定假日' },
+
+            '2027-10-10': { title: '國慶日', desc: '中華民國國慶日', type: '國定假日' },
+            '2027-10-11': { title: '國慶連假', desc: '國慶日假期', type: '連續假期' },
+
+            '2027-10-25': { title: '光復節', desc: '臺灣光復節', type: '國定假日' },
+
+            '2027-12-24': { title: '行憲紀念補假', desc: '國慶日假期', type: '補假一日' },
+            '2027-12-25': { title: '行憲紀念', desc: '行憲紀念日', type: '連續假期' }
+        };
         // 為未手動設定的年份提供通用陽曆國定假日（如2028年以後）
         function getHolidayInfo(dateStr) {
             if (TAIWAN_HOLIDAYS_MAP[dateStr]) {
