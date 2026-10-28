@@ -581,28 +581,28 @@
 
         </main>
 
-        <!-- ==================== 頁尾 FOOTER ==================== -->
-        <footer class="w-full text-center text-[11px] text-slate-500 py-6 border-t border-slate-800/60 mt-6">
-            <p>© Cyber Control Platform · Auto Cross-Year Interactive Calendar</p>
-        </footer>
-
-    </div>
-
-    <!-- ==================== 行程詳細 Modal 彈窗 (文字加大優化版) ==================== -->
-    <div id="eventModal" class="fixed inset-0 bg-black/75 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-4">
-        <div class="glass-panel p-6 rounded-2xl max-w-sm w-full border border-slate-700 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContainer">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-1">
-                <i class="fa-solid fa-xmark text-xl"></i>
+    <!-- ==================== 行程詳細 Modal 彈窗 (超大字體與清晰排版超大特大版) ==================== -->
+    <div id="eventModal" class="fixed inset-0 bg-black/85 backdrop-blur-lg z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-3 sm:px-6">
+        <div class="glass-panel p-6 sm:p-10 rounded-3xl max-w-2xl w-full border border-slate-500/80 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContainer">
+            <!-- 關閉按鈕 -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-300 hover:text-white transition-colors p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-700 border border-slate-600">
+                <i class="fa-solid fa-xmark text-xl sm:text-xl"></i>
             </button>
-            <div class="flex items-center space-x-2.5 mb-2">
-                <span id="modalDate" class="text-sm font-mono text-cyan-400 font-bold">YYYY-MM-DD</span>
+            
+            <!-- 日期標題區塊 -->
+            <div class="flex items-center space-x-4 mb-6 pb-4 border-b border-slate-700/80">
+                <i class="fa-regular fa-calendar-check text-cyan-400 text-3xl sm:text-5xl"></i>
+                <span id="modalDate" class="text-3xl sm:text-5xl font-mono text-cyan-300 font-black tracking-wide">YYYY-MM-DD</span>
             </div>
+
             <!-- 多行程內容列表容器 -->
-            <div id="modalEventList" class="space-y-3 my-4 max-h-[60vh] overflow-y-auto no-scrollbar pr-1">
+            <div id="modalEventList" class="space-y-6 my-6 max-h-[65vh] overflow-y-auto no-scrollbar pr-1">
                 <!-- 由 JS 動態生成多個行程卡片 -->
             </div>
-            <button onclick="closeModal()" class="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-semibold rounded-xl border border-slate-500 text-sm sm:text-base transition-colors shadow-md mt-2">
-                關閉
+
+            <!-- 底部關閉按鈕 -->
+            <button onclick="closeModal()" class="w-full py-2.5 sm:py-5 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-500 hover:to-pink-500 text-white font-black rounded-2xl border border-cyan-300/40 text-2xl sm:text-4xl transition-all shadow-xl active:scale-95 mt-6 tracking-wider">
+                關閉彈窗
             </button>
         </div>
     </div>
@@ -728,7 +728,6 @@
             // 2027年 範例資料
             { date: '2027-01-01', title: '2027元旦快樂', desc: '跨越到 2027 新的一年！', color: 'red' },
             { date: '2027-02-06', title: '2027農曆除夕', desc: '2027 圍爐慶團圓', color: 'red' },
-            { date: '2027-09-10', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2027-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
             { date: '2027-10-23', title: '胖胖生日', desc: '犀利貓生日。', color: 'purple' }
         ];
@@ -1088,12 +1087,12 @@
             document.getElementById('modalDate').innerText = dateStr;
             const modalList = document.getElementById('modalEventList');
             modalList.innerHTML = `
-                <div class="p-3 rounded-xl glass-card border border-pink-500/30">
-                    <div class="flex items-center space-x-2 mb-1.5">
-                        <span class="text-xs px-2.5 py-0.5 rounded font-normal event-pink">${info.type || '國定假日'}</span>
+                <div class="p-6 sm:p-8 rounded-3xl glass-card border-2 border-pink-500/60 bg-pink-500/15 space-y-4 shadow-xl">
+                    <div class="flex items-center space-x-3">
+                        <span class="text-xl sm:text-2xl px-4 py-1.5 rounded-xl font-black event-pink shadow-lg">${info.type || '國定假日'}</span>
                     </div>
-                    <h3 class="text-lg font-bold text-white mb-1">${info.title}</h3>
-                    <p class="text-xs text-slate-300 leading-relaxed">${info.desc}</p>
+                    <h3 class="text-3xl sm:text-5xl font-black text-white leading-tight tracking-wide">${info.title}</h3>
+                    <p class="text-2xl sm:text-3xl text-slate-100 font-bold leading-relaxed pt-2">${info.desc}</p>
                 </div>
             `;
 
@@ -1107,7 +1106,7 @@
             }, 10);
         }
 
-        // 5. Modal 彈窗控制 (支援展示當天多個行程)
+        // 5. Modal 彈窗控制 (支援展示當天多個行程、特大超清晰字體版)
         function openModal(dateStr) {
             const events = CONFIG_EVENTS.filter(e => e.date === dateStr);
             if (!events || events.length === 0) return;
@@ -1126,12 +1125,12 @@
             events.forEach(event => {
                 const categoryName = colorMap[event.color] || '行程標籤';
                 modalList.innerHTML += `
-                    <div class="p-3 rounded-xl glass-card border border-slate-700/80 text-left">
-                        <div class="flex items-center space-x-2 mb-1.5">
-                            <span class="text-xs px-2.5 py-0.5 rounded font-normal event-${event.color}">${categoryName}</span>
+                    <div class="p-6 sm:p-8 rounded-3xl glass-card border-2 border-slate-500/80 bg-slate-900/80 text-left space-y-4 shadow-xl">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-xl sm:text-2xl px-4 py-1.5 rounded-xl font-black event-${event.color} shadow-lg">${categoryName}</span>
                         </div>
-                        <h3 class="text-lg font-bold text-white mb-1">${event.title}</h3>
-                        <p class="text-xs text-slate-300 leading-relaxed">${event.desc}</p>
+                        <h3 class="text-3xl sm:text-5xl font-black text-white leading-tight tracking-wide">${event.title}</h3>
+                        <p class="text-2xl sm:text-3xl text-slate-100 font-bold leading-relaxed pt-2">${event.desc}</p>
                     </div>
                 `;
             });
