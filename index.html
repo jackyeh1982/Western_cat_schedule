@@ -582,10 +582,10 @@
         </main>
 
     <!-- ==================== 行程詳細 Modal 彈窗 (超大字體與清晰排版超大特大版) ==================== -->
-    <div id="eventModal" class="fixed inset-0 bg-black/85 backdrop-blur-lg z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-3 sm:px-6">
+    <div id="eventModal" class="fixed inset-0 bg-black/185 backdrop-blur-lg z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-3 sm:px-6">
         <div class="glass-panel p-6 sm:p-10 rounded-3xl max-w-2xl w-full border border-slate-500/80 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modalContainer">
             <!-- 關閉按鈕 -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-300 hover:text-white transition-colors p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-700 border border-slate-600">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-2300 hover:text-white transition-colors p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-700 border border-slate-600">
                 <i class="fa-solid fa-xmark text-xl sm:text-xl"></i>
             </button>
             
@@ -601,7 +601,7 @@
             </div>
 
             <!-- 底部關閉按鈕 -->
-            <button onclick="closeModal()" class="w-full py-2.5 sm:py-5 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-500 hover:to-pink-500 text-white font-black rounded-2xl border border-cyan-300/40 text-2xl sm:text-4xl transition-all shadow-xl active:scale-95 mt-6 tracking-wider">
+            <button onclick="closeModal()" class="w-full py-4 sm:py-5 bg-gradient-to-r from-cyan-600 via-purple-600 to-pink-600 hover:from-cyan-500 hover:to-pink-500 text-white font-black rounded-2xl border border-cyan-300/40 text-2xl sm:text-4xl transition-all shadow-xl active:scale-95 mt-6 tracking-wider">
                 關閉彈窗
             </button>
         </div>
@@ -1089,9 +1089,9 @@
             modalList.innerHTML = `
                 <div class="p-6 sm:p-8 rounded-3xl glass-card border-2 border-pink-500/60 bg-pink-500/15 space-y-4 shadow-xl">
                     <div class="flex items-center space-x-3">
-                        <span class="text-xl sm:text-2xl px-4 py-1.5 rounded-xl font-black event-pink shadow-lg">${info.type || '國定假日'}</span>
+                        <span class="text-lg sm:text-2xl px-4 py-1.5 rounded-xl font-black event-pink shadow-lg">${info.type || '國定假日'}</span>
                     </div>
-                    <h3 class="text-3xl sm:text-5xl font-black text-white leading-tight tracking-wide">${info.title}</h3>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-white leading-tight tracking-wide">${info.title}</h3>
                     <p class="text-2xl sm:text-3xl text-slate-100 font-bold leading-relaxed pt-2">${info.desc}</p>
                 </div>
             `;
@@ -1106,7 +1106,7 @@
             }, 10);
         }
 
-        // 5. Modal 彈窗控制 (支援展示當天多個行程、特大超清晰字體版)
+        // 5. Modal 彈窗控制 (支援展示當天多個行程、統一字體大小)
         function openModal(dateStr) {
             const events = CONFIG_EVENTS.filter(e => e.date === dateStr);
             if (!events || events.length === 0) return;
@@ -1125,12 +1125,12 @@
             events.forEach(event => {
                 const categoryName = colorMap[event.color] || '行程標籤';
                 modalList.innerHTML += `
-                    <div class="p-6 sm:p-8 rounded-3xl glass-card border-2 border-slate-500/80 bg-slate-900/80 text-left space-y-4 shadow-xl">
-                        <div class="flex items-center space-x-3">
-                            <span class="text-xl sm:text-2xl px-4 py-1.5 rounded-xl font-black event-${event.color} shadow-lg">${categoryName}</span>
+                    <div class="p-4 sm:p-6 rounded-2xl glass-card border-2 border-slate-500/80 bg-slate-900/80 text-left space-y-2.5 shadow-xl">
+                        <div class="flex items-center space-x-2.5">
+                            <span class="text-xs sm:text-base px-3 py-1 rounded-lg font-extrabold event-${event.color} shadow-md">${categoryName}</span>
                         </div>
-                        <h3 class="text-3xl sm:text-5xl font-black text-white leading-tight tracking-wide">${event.title}</h3>
-                        <p class="text-2xl sm:text-3xl text-slate-100 font-bold leading-relaxed pt-2">${event.desc}</p>
+                        <h3 class="text-lg sm:text-xl font-bold text-white leading-tight tracking-wide">${event.title}</h3>
+                        <p class="text-base sm:text-xl text-slate-200 font-semibold leading-relaxed pt-0.5">${event.desc}</p>
                     </div>
                 `;
             });
