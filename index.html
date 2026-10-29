@@ -31,7 +31,7 @@
     <meta name="twitter:image" content="https://placehold.co/1200x630/4f46e5/ffffff?text=Calendar">
 
     <!-- PWA 與行動裝置相容性標籤 -->
-    <meta name="theme-color" content="#4f46e5">
+    <meta name="theme-color" content="#060913">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="西洋貓 - 班表">
@@ -43,17 +43,14 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: {
-                            cyan: '#00f2fe',
-                            purple: '#9d4edd',
+                        cyber: {
+                            cyan: '#00f0ff',
                             pink: '#ff007f',
-                            dark: '#05070f'
+                            purple: '#9d00ff',
+                            dark: '#060913',
+                            panel: 'rgba(12, 18, 34, 0.85)',
+                            card: 'rgba(16, 24, 48, 0.6)'
                         }
-                    },
-                    boxShadow: {
-                        'neon-cyan': '0 0 20px rgba(0, 242, 254, 0.45)',
-                        'neon-purple': '0 0 20px rgba(157, 78, 221, 0.45)',
-                        'neon-pink': '0 0 20px rgba(255, 0, 127, 0.45)'
                     }
                 }
             }
@@ -61,8 +58,8 @@
     </script>
     <!-- FontAwesome 圖示庫 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts: Noto Sans TC, Orbitron -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Noto Sans TC, Orbitron, Rajdhani -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;600;700;800;900&family=Orbitron:wght@500;700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
         /* 徹底去除內外邊距，達到手機端 100% 滿寬 */
@@ -73,185 +70,242 @@
             max-width: 100% !important;
             overflow-x: hidden !important;
             font-family: 'Noto Sans TC', sans-serif;
-            background-color: #03050c;
-            color: #f1f5f9;
+            background-color: #060913;
+            color: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(0, 240, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(255, 0, 127, 0.08) 0%, transparent 40%),
+                linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
 
-        /* 網頁載入全螢幕動畫 */
+        /* 數字特效字型 */
+        .font-cyber-num {
+            font-family: 'Orbitron', 'Rajdhani', monospace;
+        }
+
+        /* 全螢幕載入遮罩動畫 */
         #page-loader {
             position: fixed;
             inset: 0;
-            z-index: 9999;
-            background-color: #03050c;
+            z-index: 99999;
+            background-color: #04060d;
+            background-image: 
+                radial-gradient(circle at 50% 50%, rgba(0, 240, 255, 0.12) 0%, transparent 65%),
+                linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+            background-size: 100% 100%, 25px 25px, 25px 25px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+            transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
         }
+
         #page-loader.fade-out {
             opacity: 0;
             visibility: hidden;
             pointer-events: none;
         }
 
-        /* 旋轉光圈特效 */
-        .spinner-outer {
-            width: 80px;
-            height: 80px;
+        /* 賽博掃描線與紋理 */
+        #page-loader::after {
+            content: " ";
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            z-index: 2;
+            background-size: 100% 3px, 6px 100%;
+            pointer-events: none;
+        }
+
+        /* 多重霓虹旋轉 HUD 圈環 */
+        .cyber-hud-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cyber-ring-outer {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 2px dashed #00f0ff;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5), inset 0 0 20px rgba(0, 240, 255, 0.2);
+            animation: cyberSpin 12s linear infinite;
+        }
+
+        .cyber-ring-mid {
+            position: absolute;
+            inset: 12px;
             border-radius: 50%;
             border: 3px solid transparent;
-            border-top-color: #00f2fe;
-            border-bottom-color: #ff007f;
-            animation: spin 1.2s linear infinite;
+            border-top-color: #ff007f;
+            border-bottom-color: #9d00ff;
+            box-shadow: 0 0 25px rgba(255, 0, 127, 0.7);
+            animation: cyberSpinReverse 2.5s linear infinite;
         }
-        .spinner-inner {
-            width: 60px;
-            height: 60px;
+
+        .cyber-ring-inner {
+            position: absolute;
+            inset: 26px;
             border-radius: 50%;
-            border: 3px solid transparent;
-            border-left-color: #9d4edd;
-            border-right-color: #00f2fe;
-            animation: spin-reverse 0.8s linear infinite;
+            border: 2px solid #00f0ff;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            filter: drop-shadow(0 0 10px #00f0ff);
+            animation: cyberSpin 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
         }
-        @keyframes spin {
+
+        .cyber-cat-core {
+            font-size: 2.4rem;
+            color: #00f0ff;
+            text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff, 0 0 35px #ff007f;
+            animation: cyberPulse 1.5s ease-in-out infinite alternate;
+        }
+
+        .cyber-glitch-text {
+            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.9), 2px 2px 0px #ff007f, -2px -2px 0px #00f0ff;
+            animation: glitchShake 3s infinite;
+        }
+
+        .cyber-bar-bg {
+            width: 240px;
+            height: 6px;
+            background: rgba(0, 240, 255, 0.1);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+        }
+
+        .cyber-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00f0ff, #9d00ff, #ff007f);
+            box-shadow: 0 0 15px #ff007f;
+            transition: width 0.2s ease-out;
+        }
+
+        @keyframes cyberSpin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        @keyframes spin-reverse {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(-360deg); }
+
+        @keyframes cyberSpinReverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
         }
 
-        /* 賽博網格科技背景特效 */
-        .cyber-grid {
-            background-size: 40px 40px;
-            background-image: 
-                linear-gradient(to right, rgba(0, 242, 254, 0.04) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(0, 242, 254, 0.04) 1px, transparent 1px);
+        @keyframes cyberPulse {
+            0% { transform: scale(0.92); opacity: 0.85; filter: drop-shadow(0 0 8px #00f0ff); }
+            100% { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 22px #ff007f); }
         }
 
-        /* 動態霓虹掃描光束 */
-        .scanline {
-            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(0, 242, 254, 0.08) 50%, rgba(255,255,255,0));
-            animation: scanline 8s linear infinite;
-        }
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100vh); }
+        @keyframes glitchShake {
+            0%, 90%, 100% { transform: translate(0, 0); }
+            92% { transform: translate(-2px, 1px); }
+            94% { transform: translate(2px, -1px); }
+            96% { transform: translate(-1px, -1px); }
+            98% { transform: translate(1px, 2px); }
         }
 
-        /* 超炫酷 玻璃擬態 (Glassmorphism) 升級版 */
-        .glass-panel {
-            background: rgba(10, 15, 30, 0.72);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid rgba(0, 242, 254, 0.25);
-            border-bottom: 1px solid rgba(157, 78, 221, 0.25);
-            box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 242, 254, 0.05);
+        /* 賽博面板與卡片外觀 */
+        .ui-panel {
+            background: rgba(12, 18, 34, 0.85);
+            backdrop-filter: blur(12px);
+            border-top: 1px solid rgba(0, 240, 255, 0.3);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(0, 240, 255, 0.05);
         }
 
         @media (min-width: 768px) {
-            .glass-panel {
-                border: 1px solid rgba(0, 242, 254, 0.2);
-                box-shadow: 0 15px 50px -10px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 242, 254, 0.1);
+            .ui-panel {
+                border: 1px solid rgba(0, 240, 255, 0.3);
             }
         }
 
-        .glass-card {
-            background: rgba(16, 24, 48, 0.55);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
+        .ui-card {
+            background: rgba(16, 24, 48, 0.6);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            transition: all 0.25s ease;
         }
 
-        .glass-card:hover {
-            border-color: rgba(0, 242, 254, 0.5);
-            transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 12px 30px -5px rgba(0, 242, 254, 0.3), inset 0 0 15px rgba(0, 242, 254, 0.1);
+        .ui-card:hover {
+            border-color: rgba(0, 240, 255, 0.6);
+            background: rgba(20, 32, 64, 0.85);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.25);
+            transform: translateY(-1px);
         }
 
-        /* 貼圖 Glow 光暈增強 */
-        @keyframes avatarGlow {
-            0%, 100% {
-                box-shadow: 0 0 25px rgba(0, 242, 254, 0.8), 0 0 50px rgba(157, 78, 221, 0.6);
-            }
-            50% {
-                box-shadow: 0 0 35px rgba(255, 0, 127, 0.9), 0 0 65px rgba(0, 242, 254, 0.7);
-            }
-        }
-
-        .avatar-glow {
-            animation: avatarGlow 4s infinite ease-in-out;
-        }
-
-        /* 炫酷分頁按鈕狀態 */
+        /* 分頁按鈕狀態 */
         .tab-btn {
             position: relative;
             overflow: hidden;
         }
-        .tab-btn::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: 0.5s;
-        }
-        .tab-btn:hover::before {
-            left: 100%;
-        }
+
         .tab-btn.active {
-            background: linear-gradient(135deg, rgba(0, 242, 254, 0.35), rgba(157, 78, 221, 0.35));
-            border-color: #00f2fe;
+            background: rgba(0, 240, 255, 0.15);
+            border-color: #00f0ff;
             color: #ffffff;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.2);
-            text-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
+            box-shadow: 0 0 18px rgba(0, 240, 255, 0.4), inset 0 0 10px rgba(0, 240, 255, 0.2);
+            text-shadow: 0 0 8px #00f0ff;
         }
 
         /* 日曆 6 色行程與國定假日標籤 */
         .event-red { 
-            background: rgba(239, 68, 68, 0.3); 
+            background: rgba(239, 68, 68, 0.25); 
             border: 1px solid #ef4444; 
             color: #fca5a5; 
-            box-shadow: 0 0 10px rgba(239, 68, 68, 0.25);
-        } /* 例假 */
+            box-shadow: 0 0 8px rgba(239, 68, 68, 0.3);
+        }
         .event-green { 
-            background: rgba(34, 197, 94, 0.3); 
+            background: rgba(34, 197, 94, 0.25); 
             border: 1px solid #22c55e; 
             color: #86efac; 
-            box-shadow: 0 0 10px rgba(34, 197, 94, 0.25);
-        } /* 休假 */
+            box-shadow: 0 0 8px rgba(34, 197, 94, 0.3);
+        }
         .event-yellow { 
-            background: rgba(234, 179, 8, 0.3); 
+            background: rgba(234, 179, 8, 0.25); 
             border: 1px solid #eab308; 
             color: #fef08a; 
-            box-shadow: 0 0 10px rgba(234, 179, 8, 0.25);
-        } /* 節日 */
+            box-shadow: 0 0 8px rgba(234, 179, 8, 0.3);
+        }
         .event-white { 
-            background: rgba(255, 255, 255, 0.25); 
-            border: 1px solid #ffffff; 
+            background: rgba(255, 255, 255, 0.2); 
+            border: 1px solid #f1f5f9; 
             color: #ffffff; 
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
-        } /* 支援 */
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+        }
         .event-purple { 
-            background: rgba(168, 85, 247, 0.3); 
-            border: 1px solid #a855f7; 
-            color: #d8b4fe; 
-            box-shadow: 0 0 10px rgba(168, 85, 247, 0.25);
-        } /* 活動 */
+            background: rgba(157, 0, 255, 0.25); 
+            border: 1px solid #9d00ff; 
+            color: #e9d5ff; 
+            box-shadow: 0 0 8px rgba(157, 0, 255, 0.3);
+        }
         .event-pink { 
-            background: rgba(244, 63, 94, 0.3); 
-            border: 1px solid #f43f5e; 
+            background: rgba(255, 0, 127, 0.25); 
+            border: 1px solid #ff007f; 
             color: #fecdd3; 
-            box-shadow: 0 0 10px rgba(244, 63, 94, 0.25);
-        } /* 國定假日 */
+            box-shadow: 0 0 8px rgba(255, 0, 127, 0.3);
+        }
 
         /* 週末高亮樣式 */
         .weekend-cell {
-            background-color: rgba(244, 63, 94, 0.12);
-            color: #fb7185;
-            border: 1px dashed rgba(244, 63, 94, 0.2);
+            background-color: rgba(255, 0, 127, 0.08);
+            color: #ff66b2;
         }
 
         /* 全局與特定元素隱藏滾動條 */
@@ -263,15 +317,6 @@
             display: none !important;
         }
 
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-
-        /* 手機端與小螢幕下，月曆文字橫向並列 2 字 */
         .event-badge-text {
             display: block;
             word-break: break-all;
@@ -284,120 +329,105 @@
             font-weight: normal !important;
             padding-left: 2px;
             padding-right: 2px;
-            backdrop-filter: blur(4px);
-        }
-        @media (min-width: 640px) {
-            .event-badge-text {
-                max-width: 100%;
-                line-height: 1.25;
-            }
-        }
-
-        /* 炫彩發光標題字體發光特效 */
-        .glow-text-cyan {
-            text-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
-        }
-        .glow-text-pink {
-            text-shadow: 0 0 12px rgba(255, 0, 127, 0.6);
-        }
-        .font-cyber {
-            font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between relative w-full overflow-x-hidden selection:bg-cyan-500 selection:text-black cyber-grid">
+<body class="min-h-screen flex flex-col justify-between relative w-full overflow-x-hidden selection:bg-cyan-400 selection:text-slate-900">
 
-    <!-- ==================== 1. 全螢幕載入頁面動畫 (Loading Animation) ==================== -->
+    <!-- 全螢幕賽博霓虹載入動畫 -->
     <div id="page-loader">
-        <div class="relative flex items-center justify-center mb-6">
-            <div class="spinner-outer"></div>
-            <div class="spinner-inner absolute"></div>
-            <div class="absolute text-cyan-400 text-2xl animate-pulse">
+        <div class="cyber-hud-container mb-6">
+            <div class="cyber-ring-outer"></div>
+            <div class="cyber-ring-mid"></div>
+            <div class="cyber-ring-inner"></div>
+            <div class="cyber-cat-core">
                 <i class="fa-solid fa-cat"></i>
             </div>
         </div>
-        <div class="text-xl font-cyber font-extrabold tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-300 to-pink-500 glow-text-cyan mb-2">
-            CYBER CAT SYSTEM
+
+        <div class="text-xl sm:text-2xl cyber-glitch-text mb-2">
+            西洋貓班表系統
         </div>
-        <div class="text-xs text-cyan-300/70 font-mono tracking-wider animate-pulse">
-            載入系統核心資料中...
-        </div>
-        <div class="w-48 h-1 bg-slate-800 rounded-full mt-4 overflow-hidden border border-cyan-500/30">
-            <div class="h-full bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full animate-[scanline_2s_infinite]"></div>
+
+        <div class="flex flex-col items-center space-y-3 z-10">
+            <div class="cyber-bar-bg">
+                <div id="cyberLoaderBar" class="cyber-bar-fill"></div>
+            </div>
+            
+            <div class="flex items-center space-x-2 font-cyber-num text-xs text-cyan-400/90 tracking-widest">
+                <i class="fa-solid fa-terminal text-[10px] animate-pulse"></i>
+                <span id="loaderStatusText">SYSTEM_INITIALIZING...</span>
+                <span id="loaderPercentage" class="text-pink-500 font-bold">0%</span>
+            </div>
         </div>
     </div>
-
-    <!-- 背景層：炫酷賽博光暈 & 動態光束 -->
-    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[650px] h-[650px] bg-gradient-to-tr from-cyan-500/15 via-purple-600/15 to-pink-500/15 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse"></div>
-    <div class="fixed bottom-0 right-0 w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[120px] pointer-events-none -z-10"></div>
-    <div class="fixed inset-0 pointer-events-none scanline -z-5"></div>
 
     <!-- 主要包覆層：手機 100% 寬度，電腦螢幕限寬並置中 -->
     <div class="w-full max-w-6xl mx-auto px-0 md:px-4 py-0 md:py-6 flex-1 flex flex-col">
         
         <!-- ==================== HERO 主頁頂部區域 ==================== -->
-        <header class="w-full flex flex-col items-center text-center px-4 pt-8 pb-6 glass-panel md:rounded-3xl mb-0 md:mb-6 border-b border-cyan-500/30">
+        <header class="w-full flex flex-col items-center text-center px-4 pt-8 pb-6 ui-panel md:rounded-3xl mb-0 md:mb-6 border-cyan-500/30">
             <!-- 1. img 貼圖 -->
-            <div class="relative group mb-5">
-                <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-purple-500 to-pink-500 avatar-glow transition-transform duration-500 group-hover:scale-105">
+            <div class="relative mb-4">
+                <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1 bg-gradient-to-tr from-cyan-400 via-purple-600 to-pink-500 shadow-[0_0_25px_rgba(0,240,255,0.5)]">
                     <img id="heroImage" src="images/IMG_439223.png" 
                          alt="Cyber Profile Avatar" 
-                         class="w-full h-full object-cover rounded-full border-2 border-slate-900 shadow-inner"
-                         onerror="this.src='https://placehold.co/400x400/0f172a/00f2fe?text=Cyber+Cat'">
+                         class="w-full h-full object-cover rounded-full border-2 border-slate-900"
+                         onerror="this.src='https://placehold.co/400x400/0f172a/06b6d4?text=西洋貓'">
                 </div>
-                <span class="absolute bottom-1 right-2 bg-emerald-400 border-2 border-slate-900 w-4 h-4 sm:w-5 sm:h-5 rounded-full shadow-[0_0_10px_#34d399]" title="線上狀態"></span>
+                <span class="absolute bottom-1 right-2 bg-emerald-400 border-2 border-slate-900 w-4 h-4 sm:w-5 sm:h-5 rounded-full shadow-[0_0_12px_#34d399]" title="線上狀態"></span>
             </div>
 
             <!-- 2. 標題 -->
-            <h1 class="text-3xl sm:text-5xl font-black tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-purple-300 to-pink-500 mb-2 glow-text-cyan font-cyber">
+            <h1 class="text-2xl sm:text-4xl font-black tracking-wider text-white mb-2 drop-shadow-[0_0_10px_rgba(0,240,255,0.6)]">
                 西洋貓 - 班表
             </h1>
-            <p class="text-cyan-200/70 text-xs sm:text-sm max-w-md mb-5 px-2 font-medium tracking-wide">
-                全響應式跨平台設計 · 暗色霓虹視覺 · 班表與特休即時管理
+            <p class="text-cyan-300/70 text-xs sm:text-sm max-w-md mb-5 px-2 font-medium tracking-wide">
+                全響應式跨平台設計 · 班表與特休即時管理
             </p>
 
-            <!-- 3. GMT+8 時間與自訂倒數時間卡片 (手機端 100% 滿寬) -->
+            <!-- 3. GMT+8 時間與自訂倒數時間卡片 -->
             <div class="w-full max-w-xl grid grid-cols-1 sm:grid-cols-2 gap-3.5 px-1">
                 
                 <!-- GMT+8 即時時間 -->
-                <div class="glass-card p-4 rounded-2xl flex flex-col justify-center items-center border border-cyan-500/30 shadow-[0_0_15px_rgba(0,242,254,0.1)]">
+                <div class="ui-card p-4 rounded-2xl flex flex-col justify-center items-center border-cyan-500/30">
                     <div class="flex items-center space-x-1.5 text-cyan-400 mb-0.5">
-                        <i class="fa-regular fa-clock text-sm animate-pulse"></i>
-                        <span class="text-[11px] font-bold tracking-widest uppercase font-cyber">GMT+8 標準時間</span>
+                        <i class="fa-regular fa-clock text-sm"></i>
+                        <span class="text-[11px] font-bold tracking-wider uppercase font-cyber-num">GMT+8 TIME</span>
                     </div>
-                    <div id="gmt8Clock" class="text-2xl sm:text-3xl font-cyber font-black text-white tracking-widest glow-text-cyan my-0.5">
+                    <div id="gmt8Clock" class="text-2xl sm:text-3xl font-cyber-num font-black text-white tracking-widest my-0.5 text-shadow-[0_0_10px_#00f0ff]">
                         00:00:00
                     </div>
-                    <div id="gmt8Date" class="text-[11px] text-cyan-200/80 font-medium tracking-wider">
+                    <div id="gmt8Date" class="text-[11px] text-slate-400 font-medium">
                         YYYY-MM-DD (週X)
                     </div>
                 </div>
 
                 <!-- 自定義倒數時間 -->
-                <div class="glass-card p-4 rounded-2xl flex flex-col justify-center items-center border border-purple-500/30 shadow-[0_0_15px_rgba(157,78,221,0.1)]">
-                    <div class="flex items-center space-x-1.5 text-purple-300 mb-0.5">
-                        <i class="fa-solid fa-hourglass-half text-sm animate-spin" style="animation-duration: 8s;"></i>
-                        <span id="countdownTitle" class="text-[11px] font-bold tracking-widest uppercase font-cyber">自定義倒數</span>
+                <div class="ui-card p-4 rounded-2xl flex flex-col justify-center items-center border-pink-500/30">
+                    <div class="flex items-center space-x-1.5 text-pink-400 mb-0.5">
+                        <i class="fa-solid fa-hourglass-half text-sm"></i>
+                        <span id="countdownTitle" class="text-[11px] font-bold tracking-wider uppercase font-cyber-num">自定義倒數</span>
                     </div>
                     <!-- 倒數時分秒 -->
-                    <div class="flex items-center space-x-1 font-cyber my-1">
+                    <div class="flex items-center space-x-1 font-cyber-num my-1">
                         <div class="flex flex-col items-center">
-                            <span id="cdDays" class="text-lg font-bold text-cyan-300 bg-slate-900/90 px-2 py-0.5 rounded-lg border border-purple-500/40 shadow-sm">00</span>
+                            <span id="cdDays" class="text-lg font-bold text-white bg-slate-900/90 px-2 py-0.5 rounded border border-cyan-500/30 shadow-[0_0_8px_rgba(0,240,255,0.2)]">00</span>
                             <span class="text-[9px] text-slate-400 mt-0.5">天</span>
                         </div>
-                        <span class="text-purple-400 font-bold mb-3.5">:</span>
+                        <span class="text-pink-400 font-bold mb-3">:</span>
                         <div class="flex flex-col items-center">
-                            <span id="cdHours" class="text-lg font-bold text-cyan-300 bg-slate-900/90 px-2 py-0.5 rounded-lg border border-purple-500/40 shadow-sm">00</span>
+                            <span id="cdHours" class="text-lg font-bold text-white bg-slate-900/90 px-2 py-0.5 rounded border border-cyan-500/30 shadow-[0_0_8px_rgba(0,240,255,0.2)]">00</span>
                             <span class="text-[9px] text-slate-400 mt-0.5">時</span>
                         </div>
-                        <span class="text-purple-400 font-bold mb-3.5">:</span>
+                        <span class="text-pink-400 font-bold mb-3">:</span>
                         <div class="flex flex-col items-center">
-                            <span id="cdMinutes" class="text-lg font-bold text-cyan-300 bg-slate-900/90 px-2 py-0.5 rounded-lg border border-purple-500/40 shadow-sm">00</span>
+                            <span id="cdMinutes" class="text-lg font-bold text-white bg-slate-900/90 px-2 py-0.5 rounded border border-cyan-500/30 shadow-[0_0_8px_rgba(0,240,255,0.2)]">00</span>
                             <span class="text-[9px] text-slate-400 mt-0.5">分</span>
                         </div>
-                        <span class="text-purple-400 font-bold mb-3.5">:</span>
+                        <span class="text-pink-400 font-bold mb-3">:</span>
                         <div class="flex flex-col items-center">
-                            <span id="cdSeconds" class="text-lg font-bold text-pink-400 bg-slate-900/90 px-2 py-0.5 rounded-lg border border-pink-500/40 shadow-sm">00</span>
+                            <span id="cdSeconds" class="text-lg font-bold text-white bg-slate-900/90 px-2 py-0.5 rounded border border-cyan-500/30 shadow-[0_0_8px_rgba(0,240,255,0.2)]">00</span>
                             <span class="text-[9px] text-slate-400 mt-0.5">秒</span>
                         </div>
                     </div>
@@ -406,9 +436,9 @@
             </div>
         </header>
 
-        <!-- ==================== 頁面下方 3 個橫向按鈕 (手機端 100% 平鋪可滾動) ==================== -->
+        <!-- ==================== 頁面橫向導覽按鈕 ==================== -->
         <nav class="w-full my-3 md:my-5">
-            <div class="w-full glass-panel md:rounded-2xl p-2">
+            <div class="w-full ui-panel md:rounded-2xl p-2 border-cyan-500/30">
                 <div class="flex overflow-x-auto no-scrollbar gap-2.5 w-full justify-between sm:justify-center">
                     <button onclick="switchTab(1)" id="tabBtn1" class="tab-btn active flex-1 min-w-[100px] py-3 px-4 rounded-xl flex items-center justify-center space-x-2 text-xs sm:text-sm font-bold border border-transparent whitespace-nowrap transition-all">
                         <i class="fa-solid fa-calendar-days text-cyan-400"></i>
@@ -426,36 +456,37 @@
             </div>
         </nav>
 
-        <!-- ==================== 分頁內容區域 (手機滿寬) ==================== -->
+        <!-- ==================== 分頁內容區域 ==================== -->
         <main class="w-full flex-1">
             
-            <!-- 第 1 頁：班表 (支援自動跨年份) -->
+            <!-- 第 1 頁：班表 -->
             <section id="tabContent1" class="tab-content w-full transition-opacity duration-300">
-                <div class="w-full glass-panel md:rounded-3xl p-3 sm:p-6 border-slate-800">
+                <div class="w-full ui-panel md:rounded-3xl p-3 sm:p-6 border-slate-800">
                     
                     <!-- 導覽控制頂部：上個月 / 回到今天 / 下個月 -->
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
                         <div class="flex items-center space-x-2 w-full sm:w-auto justify-between">
-                            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 font-cyber">
-                                <span id="currentYearDisplay" class="text-cyan-400 glow-text-cyan">2026</span> 年
-                                <span id="currentMonthDisplay" class="text-white">1</span> 月班表
+                            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-days text-cyan-400"></i>
+                                <span id="currentYearDisplay" class="text-cyan-400 font-cyber-num">2026</span> 年
+                                <span id="currentMonthDisplay" class="text-white font-cyber-num">1</span> 月班表
                             </h2>
-                            <span id="todayBadge" class="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-3 py-1 rounded-full shadow-[0_0_10px_rgba(0,242,254,0.2)] font-semibold">
+                            <span id="todayBadge" class="text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 px-3 py-1 rounded-full font-semibold shadow-[0_0_10px_rgba(0,240,255,0.2)]">
                                 板橋文化
                             </span>
                         </div>
 
                         <!-- 3個動態切換按鈕 -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
-                            <button onclick="changeMonth(-1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl glass-card text-xs text-slate-200 hover:text-cyan-400 hover:border-cyan-500/60 flex items-center justify-center space-x-1.5 font-semibold">
+                            <button onclick="changeMonth(-1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl ui-card text-xs text-slate-200 hover:text-cyan-400 hover:border-cyan-500/60 flex items-center justify-center space-x-1.5 font-semibold">
                                 <i class="fa-solid fa-chevron-left text-[10px]"></i>
                                 <span>上個月</span>
                             </button>
-                            <button onclick="resetToToday()" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-cyan-500/25 border border-cyan-400/50 text-xs font-bold text-cyan-300 hover:bg-cyan-500/40 shadow-[0_0_15px_rgba(0,242,254,0.3)] flex items-center justify-center space-x-1.5">
+                            <button onclick="resetToToday()" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-cyan-500/20 border border-cyan-500/40 text-xs font-bold text-cyan-300 hover:bg-cyan-500/30 flex items-center justify-center space-x-1.5 shadow-[0_0_10px_rgba(0,240,255,0.2)]">
                                 <i class="fa-solid fa-rotate-right text-[10px]"></i>
                                 <span>回到今天</span>
                             </button>
-                            <button onclick="changeMonth(1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl glass-card text-xs text-slate-200 hover:text-cyan-400 hover:border-cyan-500/60 flex items-center justify-center space-x-1.5 font-semibold">
+                            <button onclick="changeMonth(1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl ui-card text-xs text-slate-200 hover:text-cyan-400 hover:border-cyan-500/60 flex items-center justify-center space-x-1.5 font-semibold">
                                 <span>下個月</span>
                                 <i class="fa-solid fa-chevron-right text-[10px]"></i>
                             </button>
@@ -465,77 +496,77 @@
                     <!-- 顏色標註圖例 -->
                     <div class="flex flex-wrap gap-2 text-xs mb-4">
                         <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg event-red font-semibold">
-                            <span class="w-2 h-2 rounded-full bg-red-400 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-red-400"></span>
                             <span>例假</span>
                         </div>
                         <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg event-green font-semibold">
-                            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-green-400"></span>
                             <span>休假</span>
                         </div>
                         <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg event-yellow font-semibold">
-                            <span class="w-2 h-2 rounded-full bg-yellow-400 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-yellow-400"></span>
                             <span>節日</span>
                         </div>
                         <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg event-white font-semibold">
-                            <span class="w-2 h-2 rounded-full bg-slate-100 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-slate-100"></span>
                             <span>支援</span>
                         </div>
                         <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg event-purple font-semibold">
-                            <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+                            <span class="w-2 h-2 rounded-full bg-purple-400"></span>
                             <span>活動</span>
                         </div>
                     </div>
 
-                    <!-- 月曆主體 (100% 滿寬) -->
-                    <div class="w-full glass-card rounded-2xl p-1.5 sm:p-4 border-cyan-500/20">
+                    <!-- 月曆主體 -->
+                    <div class="w-full ui-card rounded-2xl p-1.5 sm:p-4">
                         <!-- 星期列 -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2 font-cyber">
-                            <div class="py-1.5 text-rose-400 bg-rose-500/15 rounded-lg border border-rose-500/20">日</div>
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2">
+                            <div class="py-1.5 text-pink-400 bg-pink-500/10 rounded-lg">日</div>
                             <div class="py-1.5 text-slate-300">一</div>
                             <div class="py-1.5 text-slate-300">二</div>
                             <div class="py-1.5 text-slate-300">三</div>
                             <div class="py-1.5 text-slate-300">四</div>
                             <div class="py-1.5 text-slate-300">五</div>
-                            <div class="py-1.5 text-rose-400 bg-rose-500/15 rounded-lg border border-rose-500/20">六</div>
+                            <div class="py-1.5 text-pink-400 bg-pink-500/10 rounded-lg">六</div>
                         </div>
 
                         <!-- 日期網格 -->
                         <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1 text-center">
-                            <!-- 由 JS 動態生成月曆數字與自定義文字卡片 -->
+                            <!-- 由 JS 動態生成 -->
                         </div>
                     </div>
 
                 </div>
             </section>
 
-            <!-- 第 2 頁：台灣國定假日 (支援自動跨年份與多年份假日計算) -->
+            <!-- 第 2 頁：台灣國定假日 -->
             <section id="tabContent2" class="tab-content w-full hidden transition-opacity duration-300">
-                <div class="w-full glass-panel md:rounded-3xl p-3 sm:p-6 border-slate-800">
+                <div class="w-full ui-panel md:rounded-3xl p-3 sm:p-6 border-slate-800">
                     
-                    <!-- 導覽控制頂部：上個月 / 回到今天 / 下個月 -->
-                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80">
+                    <!-- 導覽控制頂部 -->
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
                         <div class="flex items-center space-x-2 w-full sm:w-auto justify-between">
-                            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2 font-cyber">
-                                <i class="fa-solid fa-flag text-pink-500 animate-bounce"></i>
-                                <span id="holidayYearDisplay" class="text-pink-400 glow-text-pink">2026</span> 年
-                                <span id="holidayMonthDisplay" class="text-white">1</span> 月國定假日
+                            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
+                                <i class="fa-solid fa-flag text-pink-500"></i>
+                                <span id="holidayYearDisplay" class="text-pink-400 font-cyber-num">2026</span> 年
+                                <span id="holidayMonthDisplay" class="text-white font-cyber-num">1</span> 月國定假日
                             </h2>
-                            <span class="text-[10px] sm:text-xs bg-pink-500/20 text-pink-300 border border-pink-500/40 px-3 py-0.5 rounded-full shadow-[0_0_10px_rgba(255,0,127,0.2)] font-semibold">
+                            <span id="todayBadge" class="text-xs bg-pink-500/20 text-pink-300 border border-pink-500/40 px-3 py-1 rounded-full font-semibold shadow-[0_0_10px_rgba(255,0,127,0.2)]">
                                 假日月曆
                             </span>
                         </div>
 
                         <!-- 3個動態切換按鈕 -->
                         <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
-                            <button onclick="changeHolidayMonth(-1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl glass-card text-xs text-slate-200 hover:text-pink-400 hover:border-pink-500/60 flex items-center justify-center space-x-1.5 font-semibold">
+                            <button onclick="changeHolidayMonth(-1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl ui-card text-xs text-slate-200 hover:text-pink-400 hover:border-pink-500/60 flex items-center justify-center space-x-1.5 font-semibold">
                                 <i class="fa-solid fa-chevron-left text-[10px]"></i>
                                 <span>上個月</span>
                             </button>
-                            <button onclick="resetHolidayToToday()" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-pink-500/25 border border-pink-500/50 text-xs font-bold text-pink-300 hover:bg-pink-500/40 shadow-[0_0_15px_rgba(255,0,127,0.3)] flex items-center justify-center space-x-1.5">
+                            <button onclick="resetHolidayToToday()" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl bg-pink-500/20 border border-pink-500/40 text-xs font-bold text-pink-300 hover:bg-pink-500/30 flex items-center justify-center space-x-1.5 shadow-[0_0_10px_rgba(255,0,127,0.2)]">
                                 <i class="fa-solid fa-rotate-right text-[10px]"></i>
                                 <span>回到今天</span>
                             </button>
-                            <button onclick="changeHolidayMonth(1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl glass-card text-xs text-slate-200 hover:text-pink-400 hover:border-pink-500/60 flex items-center justify-center space-x-1.5 font-semibold">
+                            <button onclick="changeHolidayMonth(1)" class="flex-1 sm:flex-none px-3.5 py-2 rounded-xl ui-card text-xs text-slate-200 hover:text-pink-400 hover:border-pink-500/60 flex items-center justify-center space-x-1.5 font-semibold">
                                 <span>下個月</span>
                                 <i class="fa-solid fa-chevron-right text-[10px]"></i>
                             </button>
@@ -544,32 +575,32 @@
 
                     <!-- 國定假日圖例提示 -->
                     <div class="flex flex-wrap gap-2 text-[11px] mb-4">
-                        <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-pink-500/20 border border-pink-500/40 text-pink-300 font-semibold shadow-[0_0_10px_rgba(255,0,127,0.2)]">
-                            <span class="w-2 h-2 rounded-full bg-pink-400 animate-ping"></span>
+                        <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-pink-500/20 border border-pink-500/40 text-pink-300 font-semibold shadow-[0_0_8px_rgba(255,0,127,0.2)]">
+                            <span class="w-2 h-2 rounded-full bg-pink-400"></span>
                             <span>國定假日 / 放假日</span>
                         </div>
-                        <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-400 font-semibold">
+                        <div class="flex items-center space-x-1.5 px-3 py-1 rounded-lg bg-rose-500/10 border border-rose-500/20 text-rose-400 font-semibold">
                             <span class="w-2 h-2 rounded-full bg-rose-400"></span>
                             <span>六日週末</span>
                         </div>
                     </div>
 
                     <!-- 假日月曆主體 -->
-                    <div class="w-full glass-card rounded-2xl p-1.5 sm:p-4 border-pink-500/20">
+                    <div class="w-full ui-card rounded-2xl p-1.5 sm:p-4">
                         <!-- 星期列 -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2 font-cyber">
-                            <div class="py-1.5 text-rose-400 bg-rose-500/15 rounded-lg border border-rose-500/20">日</div>
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2">
+                            <div class="py-1.5 text-pink-400 bg-pink-500/10 rounded-lg">日</div>
                             <div class="py-1.5 text-slate-300">一</div>
                             <div class="py-1.5 text-slate-300">二</div>
                             <div class="py-1.5 text-slate-300">三</div>
                             <div class="py-1.5 text-slate-300">四</div>
                             <div class="py-1.5 text-slate-300">五</div>
-                            <div class="py-1.5 text-rose-400 bg-rose-500/15 rounded-lg border border-rose-500/20">六</div>
+                            <div class="py-1.5 text-pink-400 bg-pink-500/10 rounded-lg">六</div>
                         </div>
 
                         <!-- 假日日期網格 -->
                         <div id="holidayCalendarGrid" class="grid grid-cols-7 gap-1 text-center text-xs">
-                            <!-- 由 JS 動態生成假日月曆 -->
+                            <!-- 由 JS 動態生成 -->
                         </div>
                     </div>
 
@@ -578,137 +609,136 @@
 
             <!-- 第 3 頁：犀利貓特休 (內容完整置中) -->
             <section id="tabContent3" class="tab-content w-full hidden transition-opacity duration-300">
-                <div class="w-full glass-panel md:rounded-3xl p-4 sm:p-6 border-slate-800 text-center flex flex-col items-center">
+                <div class="w-full ui-panel md:rounded-3xl p-4 sm:p-6 border-slate-800 text-center flex flex-col items-center">
                     
                     <!-- 標題與簡介 (置中) -->
-                    <div class="mb-5 pb-3 border-b border-slate-800/80 w-full flex flex-col items-center">
-                        <span class="px-3.5 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs rounded-full font-cyber mb-2 shadow-[0_0_10px_rgba(0,242,254,0.2)]">2026-2027 年度</span>
-                        <h2 class="text-xl sm:text-3xl font-bold text-white flex items-center justify-center gap-2 font-cyber">
-                            <i class="fa-solid fa-cat text-cyan-400 glow-text-cyan"></i> 犀利貓特休專區
+                    <div class="mb-5 pb-3 border-b border-slate-800 w-full flex flex-col items-center">
+                        <span class="px-3.5 py-1 bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 text-xs rounded-full font-cyber-num mb-2 shadow-[0_0_10px_rgba(0,240,255,0.2)]">2026-2027 年度</span>
+                        <h2 class="text-xl sm:text-3xl font-bold text-white flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-cat text-cyan-400"></i> 犀利貓特休專區
                         </h2>
-                        <p class="text-xs text-cyan-200/60 mt-1.5 max-w-md mx-auto">個人特休額度、請假紀錄與相關規範說明</p>
+                        <p class="text-xs text-slate-400 mt-1.5 max-w-md mx-auto">個人特休額度、請假紀錄與相關規範說明</p>
                     </div>
 
                     <!-- 特休數據卡片區塊 (置中) -->
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5 mb-6 w-full max-w-3xl">
-                        <div class="glass-card p-4 rounded-2xl text-center flex flex-col items-center justify-center border-slate-700/60">
+                        <div class="ui-card p-4 rounded-2xl text-center flex flex-col items-center justify-center">
                             <span class="text-[11px] text-slate-400 block mb-1">總額度</span>
-                            <span class="text-2xl sm:text-3xl font-extrabold text-white font-cyber">15 <span class="text-xs text-slate-400 font-normal">天</span></span>
+                            <span class="text-2xl sm:text-3xl font-extrabold text-white font-cyber-num">15 <span class="text-xs text-slate-400 font-normal">天</span></span>
                         </div>
-                        <div class="glass-card p-4 rounded-2xl text-center flex flex-col items-center justify-center border-purple-500/30">
+                        <div class="ui-card p-4 rounded-2xl text-center flex flex-col items-center justify-center">
                             <span class="text-[11px] text-slate-400 block mb-1">已使用</span>
-                            <span class="text-2xl sm:text-3xl font-extrabold text-purple-400 font-cyber glow-text-purple">8 <span class="text-xs text-slate-400 font-normal">天</span></span>
+                            <span class="text-2xl sm:text-3xl font-extrabold text-purple-400 font-cyber-num">8 <span class="text-xs text-slate-400 font-normal">天</span></span>
                         </div>
-                        <div class="glass-card p-4 rounded-2xl text-center flex flex-col items-center justify-center border-amber-500/30">
+                        <div class="ui-card p-4 rounded-2xl text-center flex flex-col items-center justify-center">
                             <span class="text-[11px] text-slate-400 block mb-1">審核中</span>
-                            <span class="text-2xl sm:text-3xl font-extrabold text-amber-400 font-cyber">0 <span class="text-xs text-slate-400 font-normal">天</span></span>
+                            <span class="text-2xl sm:text-3xl font-extrabold text-amber-400 font-cyber-num">0 <span class="text-xs text-slate-400 font-normal">天</span></span>
                         </div>
-                        <div class="glass-card p-4 rounded-2xl text-center flex flex-col items-center justify-center border-cyan-500/40 bg-cyan-500/10 shadow-[0_0_20px_rgba(0,242,254,0.15)]">
+                        <div class="ui-card p-4 rounded-2xl text-center flex flex-col items-center justify-center border-cyan-500/40 bg-cyan-500/10 shadow-[0_0_15px_rgba(0,240,255,0.15)]">
                             <span class="text-[11px] text-cyan-300 block mb-1 font-bold">剩餘特休</span>
-                            <span class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-cyber glow-text-cyan">7 <span class="text-xs text-slate-400 font-normal">天</span></span>
+                            <span class="text-2xl sm:text-3xl font-extrabold text-cyan-400 font-cyber-num text-shadow-[0_0_8px_#00f0ff]">7 <span class="text-xs text-slate-400 font-normal">天</span></span>
                         </div>
                     </div>
 
                     <!-- 特休條款與連結內容 (完整置中) -->
-                    <div class="glass-card p-5 sm:p-7 rounded-3xl space-y-5 text-xs leading-relaxed text-slate-300 w-full max-w-3xl text-center flex flex-col items-center border-cyan-500/20">
+                    <div class="ui-card p-5 sm:p-7 rounded-3xl space-y-5 text-xs leading-relaxed text-slate-300 w-full max-w-3xl text-center flex flex-col items-center border-cyan-500/30">
                         
-                        <h3 class="text-xl sm:text-2xl font-extrabold text-cyan-300 flex items-center justify-center gap-2 border-b border-slate-700/60 pb-3 w-full font-cyber">
-                            <i class="fa-solid fa-circle-info text-cyan-400 text-2xl animate-pulse"></i> 請假規則提示
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-cyan-300 flex items-center justify-center gap-2 border-b border-slate-700/60 pb-3 w-full">
+                            <i class="fa-solid fa-circle-info text-cyan-400 text-2xl"></i> 請假規則提示
                         </h3>
 
                         <div class="space-y-2 text-center text-base sm:text-xl font-bold py-2">
-                            <p class="text-white text-lg sm:text-2xl">年度特別休假日 <font color="#00DB00" class="font-extrabold text-2xl sm:text-3xl"> 15 </font> 天</p>
+                            <p class="text-white text-lg sm:text-2xl">年度特別休假日 <font color="#00DB00" class="font-extrabold text-2xl sm:text-3xl font-cyber-num"> 15 </font> 天</p>
                             <p class="text-slate-300 text-sm sm:text-lg">計算起始日當年度至下年度：</p>
-                            <p class="font-cyber text-cyan-300 text-lg sm:text-2xl font-black bg-slate-900/90 py-2.5 px-5 rounded-2xl border border-cyan-500/40 inline-block shadow-[0_0_20px_rgba(0,242,254,0.2)]">2026/4/6 (首日) 至 2027/4/5 (尾日)</p>
+                            <p class="font-cyber-num text-cyan-300 text-lg sm:text-2xl font-black bg-slate-900/90 py-2.5 px-5 rounded-2xl border border-cyan-500/40 shadow-[0_0_12px_rgba(0,240,255,0.2)] inline-block">2026/4/6 (首日) 至 2027/4/5 (尾日)</p>
                         </div>
 
                         <!-- 回報表單與主管電話 (置中) -->
-                        <div class="my-2 p-5 bg-slate-900/90 rounded-2xl border border-cyan-500/30 w-full max-w-md text-center space-y-3 shadow-2xl relative overflow-hidden">
-                            <div class="absolute -top-10 -right-10 w-24 h-24 bg-yellow-500/10 rounded-full blur-xl pointer-events-none"></div>
+                        <div class="my-2 p-5 bg-slate-900/90 rounded-2xl border border-slate-700 w-full max-w-md text-center space-y-3 shadow-lg">
                             <div>
-                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSep_r4ye7pbrpHbfHNbH03dmJzIpgh7Ssurp01mKJmFeGh0ig/viewform?hl=zh_TW&amp;pli=1" target="_blank" class="inline-flex items-center gap-2 text-yellow-300 hover:text-yellow-200 text-base sm:text-lg font-black underline decoration-yellow-400 hover:decoration-yellow-300 transition-all hover:scale-105">
+                                <a href="https://docs.google.com/forms/d/e/1FAIpQLSep_r4ye7pbrpHbfHNbH03dmJzIpgh7Ssurp01mKJmFeGh0ig/viewform?hl=zh_TW&amp;pli=1" target="_blank" class="inline-flex items-center gap-2 text-yellow-300 hover:text-yellow-200 text-base sm:text-lg font-black underline decoration-yellow-400 hover:decoration-yellow-300 transition-all drop-shadow-[0_0_8px_rgba(234,179,8,0.4)]">
                                     <i class="fa-solid fa-file-pen text-lg"></i> 組裝三課請假回報表單
                                 </a>
                             </div>
-                            <div class="text-slate-200 text-sm sm:text-base font-semibold">佳宏課長：<span class="font-cyber text-white text-base sm:text-lg font-bold">0903133940</span></div>
-                            <div class="text-slate-200 text-sm sm:text-base font-semibold">小豪組長：<span class="font-cyber text-white text-base sm:text-lg font-bold">0903368917</span></div>
+                            <div class="text-slate-200 text-sm sm:text-base font-semibold">佳宏課長：<span class="font-cyber-num text-white text-base sm:text-lg font-bold tracking-wider">0903133940</span></div>
+                            <div class="text-slate-200 text-sm sm:text-base font-semibold">小豪組長：<span class="font-cyber-num text-white text-base sm:text-lg font-bold tracking-wider">0903368917</span></div>
                         </div>
 
-                        <!-- 請假紀錄表格 -->
-                        <div class="w-full overflow-x-auto mt-4 rounded-2xl border border-slate-700/80 shadow-2xl">
-                            <table style="width: 100%; border-collapse: collapse;" border="1" class="text-center w-full mx-auto border-slate-700/60 text-base sm:text-xl">
+                        <!-- 請假紀錄表格 (Table 內部全居中) -->
+                        <div class="w-full overflow-x-auto mt-4 rounded-2xl border border-slate-700 shadow-xl">
+                            <table style="width: 100%; border-collapse: collapse;" border="1" class="text-center w-full mx-auto border-slate-700 text-base sm:text-xl">
                                 <thead>
-                                    <tr class="bg-slate-800/90 text-cyan-300 border-b border-slate-700">
+                                    <tr class="bg-slate-900/90 text-cyan-300 border-b border-slate-700">
                                         <th style="width: 100%; text-align: center;" colspan="3" class="py-3 px-2 text-center">
-                                            <span style="color: #00db00;" class="font-cyber font-bold text-lg sm:text-2xl">2026/4/6 &rarr; 2027/4/5 紀錄明細</span>
+                                            <span style="color: #00db00;" class="font-cyber-num font-bold text-lg sm:text-2xl">2026/4/6 &rarr; 2027/4/5 紀錄明細</span>
                                         </th>
                                     </tr>
-                                    <tr class="bg-slate-800/50 text-slate-300 border-b border-slate-700">
+                                    <tr class="bg-slate-800/60 text-slate-300 border-b border-slate-700">
                                         <th style="width: 33.33%; text-align: center;" class="py-2.5 px-2 text-center font-bold text-base sm:text-xl">日期/說明</th>
                                         <th style="width: 33.33%; text-align: center;" class="py-2.5 px-2 text-center font-bold text-base sm:text-xl">扣抵天數</th> 
                                         <th style="width: 33.33%; text-align: center;" class="py-2.5 px-2 text-center font-bold text-base sm:text-xl">剩餘額度</th> 
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-800/80 font-medium bg-slate-900/40">
+                                <tbody class="divide-y divide-slate-800 font-medium bg-slate-900/40">
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">04/06 首日</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">15</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">15</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">04/22</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">14.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">14.5</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">05/08</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">14</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">14</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">05/18</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">13.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">13.5</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">06/04</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">13</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">13</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">06/12</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">12.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">12.5</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">07/15</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">12</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">12</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">08/03</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">1</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">11</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">1</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">11</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">08/19</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">10.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">10.5</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">09/09、10、11</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">3</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">7.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">3</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">7.5</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">10/08</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0.5</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">7</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0.5</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">7</span> 天</td> 
                                     </tr>
                                     <tr>
                                         <td style="text-align: center;" class="py-3 px-2">04/05 尾日</td>
-                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber font-bold">0</span> 天</td> 
-                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber font-bold">7</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">特休 <span style="color: #00db00;" class="font-cyber-num font-bold">0</span> 天</td> 
+                                        <td style="text-align: center;" class="py-3 px-2">餘 <span style="color: #00db00;" class="font-cyber-num font-bold">7</span> 天</td> 
                                     </tr>
                                 </tbody>
                             </table>
@@ -719,20 +749,33 @@
             </section>
 
         </main>
+
+        <!-- ==================== 版權宣告 Footer 區域 ==================== -->
+        <footer class="w-full mt-6 py-6 px-4 text-center text-xs text-slate-400 border-t border-slate-800/80 ui-panel md:rounded-2xl border-cyan-500/20">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 max-w-4xl mx-auto">
+                <div class="flex items-center space-x-2 text-slate-300 font-medium">
+                    <i class="fa-solid fa-cat text-cyan-400"></i>
+                    <span>西洋貓班表與特休管理平台</span>
+                </div>
+                <div class="text-slate-500 text-[11px] font-cyber-num">
+                    &copy; 2026 犀利貓. All Rights Reserved.
+                </div>
+            </div>
+        </footer>
     </div>
 
     <!-- ==================== 行程詳細 Modal 彈窗 ==================== -->
-    <div id="eventModal" class="fixed inset-0 bg-black/85 backdrop-blur-xl z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300 px-3 sm:px-6">
-        <div class="glass-panel p-6 sm:p-10 rounded-3xl max-w-2xl w-full border border-cyan-500/50 shadow-[0_0_50px_rgba(0,242,254,0.25)] relative transform scale-95 transition-transform duration-300" id="modalContainer">
+    <div id="eventModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-200 px-3 sm:px-6">
+        <div class="ui-panel p-6 sm:p-10 rounded-3xl max-w-2xl w-full border border-cyan-500/50 shadow-[0_0_50px_rgba(0,240,255,0.2)] relative transform scale-95 transition-transform duration-200" id="modalContainer">
             <!-- 關閉按鈕 -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-300 hover:text-white transition-colors p-3 rounded-2xl bg-slate-800/80 hover:bg-slate-700 border border-slate-600">
-                <i class="fa-solid fa-xmark text-xl sm:text-xl"></i>
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors p-3 rounded-2xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700">
+                <i class="fa-solid fa-xmark text-xl"></i>
             </button>
             
             <!-- 日期標題區塊 -->
             <div class="flex items-center space-x-4 mb-6 pb-4 border-b border-slate-700/80">
-                <i class="fa-regular fa-calendar-check text-cyan-400 text-3xl sm:text-5xl animate-pulse"></i>
-                <span id="modalDate" class="text-3xl sm:text-5xl font-cyber text-cyan-300 font-black tracking-wide glow-text-cyan">YYYY-MM-DD</span>
+                <i class="fa-regular fa-calendar-check text-cyan-400 text-3xl sm:text-5xl drop-shadow-[0_0_10px_#00f0ff]"></i>
+                <span id="modalDate" class="text-3xl sm:text-5xl font-cyber-num text-cyan-300 font-black tracking-wide text-shadow-[0_0_12px_#00f0ff]">YYYY-MM-DD</span>
             </div>
 
             <!-- 多行程內容列表容器 -->
@@ -751,36 +794,43 @@
          * [修改區 1] 自定義倒數時間設定
          * ========================================================= */
         const CONFIG_COUNTDOWN = {
-            title: "2027 新年倒數",
-            targetDate: "2027-01-01T00:00:00+08:00"
+            title: "2027 新年倒數",                   // 倒數標題
+            targetDate: "2027-01-01T00:00:00+08:00"  // ISO 8601 GMT+8 時間格式
         };
 
         /* =========================================================
-         * [修改區 2] 班表 / 行程自定義標註
-         * color 顏色: 'red'(例假) | 'green'(休假) | 'yellow'(節日) | 'white'(支援) | 'purple'(活動)
+         * [修改區 2] 班表 / 行程自定義標註 (支援同一天多個行程)
+         * color 顏色可選: 'red'(例假) | 'green'(休假) | 'yellow'(節日) | 'white'(支援) | 'purple'(活動)
          * ========================================================= */
         const CONFIG_EVENTS = [
-            // 2026年支援行程
+            // 2026年
+
+            /* 支援行程 (white) */
+            /* 6月 */
             { date: '2026-06-09', title: '支援樹林中山', desc: '樹林中山。', color: 'white' },
             { date: '2026-06-10', title: '支援樹林中山', desc: '樹林中山。', color: 'white' },
             { date: '2026-06-14', title: '支援板橋四川', desc: '板橋四川。', color: 'white' },
 
+            /* 7月 */
             { date: '2026-07-11', title: '支援板橋文化', desc: '板橋文化。', color: 'white' },
             { date: '2026-07-14', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
             { date: '2026-07-24', title: '支援板橋文化', desc: '板橋文化。', color: 'white' },
             { date: '2026-07-29', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
 
+            /* 8月 */
             { date: '2026-08-02', title: '支援板橋文化', desc: '板橋文化。', color: 'white' },
             { date: '2026-08-17', title: '支援樹林篤行', desc: '樹林篤行。', color: 'white' },
             { date: '2026-08-30', title: '支援板橋中正', desc: '板橋中正。', color: 'white' },
             { date: '2026-08-31', title: '支援板橋中正', desc: '板橋中正。', color: 'white' },
 
+            /* 9月 */
             { date: '2026-09-02', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
             { date: '2026-09-15', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
             { date: '2026-09-29', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
             { date: '2026-09-30', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
 
-            // 休假
+            /* 休假 (green) */
+            /* 5月 */
             { date: '2026-05-04', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-05-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-05-09', title: '休假', desc: '胖胖豬休假。', color: 'green' },
@@ -793,6 +843,7 @@
             { date: '2026-05-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-05-30', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 6月 */
             { date: '2026-06-03', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-06-06', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-06-11', title: '休假', desc: '胖胖豬休假。', color: 'green' },
@@ -803,6 +854,7 @@
             { date: '2026-06-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-06-30', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 7月 */
             { date: '2026-07-01', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-07-04', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-07-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
@@ -814,6 +866,7 @@
             { date: '2026-07-26', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-07-30', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 8月 */
             { date: '2026-08-05', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-08-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-08-12', title: '休假', desc: '胖胖豬休假。', color: 'green' },
@@ -823,6 +876,7 @@
             { date: '2026-08-24', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-08-29', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 9月 */
             { date: '2026-09-01', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-09-05', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-09-10', title: '休假', desc: '胖胖豬休假。', color: 'green' },
@@ -831,6 +885,7 @@
             { date: '2026-09-26', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-09-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 10月 */
             { date: '2026-10-02', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-10-06', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-10-07', title: '休假', desc: '胖胖豬休假。', color: 'green' },
@@ -842,22 +897,28 @@
             { date: '2026-10-25', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-10-28', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 11月 */
             { date: '2026-11-07', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-11-13', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-11-19', title: '休假', desc: '胖胖豬休假。', color: 'green' },
             { date: '2026-11-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
+            /* 12月 */
             { date: '2026-12-05', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            // 例假
+            /* 例假 (red) */
+            /* 11月 */
             { date: '2026-11-02', title: '例假', desc: '胖胖豬例假。', color: 'red' },
             { date: '2026-11-10', title: '例假', desc: '胖胖豬例假。', color: 'red' },
             { date: '2026-11-18', title: '例假', desc: '胖胖豬例假。', color: 'red' },
             { date: '2026-11-23', title: '例假', desc: '胖胖豬例假。', color: 'red' },
             { date: '2026-11-29', title: '例假', desc: '胖胖豬例假。', color: 'red' },
 
-            // 節日與活動
+            /* 節日 (yellow) */
+            /* 11月 */
             { date: '2026-11-28', title: '節日', desc: '胖胖豬節日。', color: 'yellow' },
+
+            /* 生日活動 (purple) */
             { date: '2026-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
             { date: '2026-10-23', title: '胖胖生日', desc: '犀利貓生日。', color: 'purple' },
 
@@ -868,9 +929,10 @@
         ];
 
         /* =========================================================
-         * [資料區] 台灣國定假日
+         * [資料區] 台灣國定假日 (動態支援跨年份生成)
          * ========================================================= */
         const TAIWAN_HOLIDAYS_MAP = {
+            // 2026 國定假日
             '2026-01-01': { title: '中華民國開國紀念日', desc: '元旦放假一天', type: '國定假日' },
             '2026-02-14': { title: '農曆春節假期', desc: '春節連假首日', type: '連續假期' },
             '2026-02-15': { title: '農曆春節假期', desc: '春節連假', type: '連續假期' },
@@ -900,7 +962,9 @@
             '2026-10-12': { title: '國慶日補假', desc: '國慶日補假一天', type: '連續假期' },
             '2026-12-25': { title: '行憲紀念', desc: '行憲紀念日', type: '特定節日' },
 
+            // 2027 國定假日 (跨年自動獲取與展示)
             '2027-01-01': { title: '中華民國開國紀念日', desc: '元旦放假一天', type: '連續假期' },
+
             '2027-02-04': { title: '小年夜', desc: '春節連假首日', type: '連續假期' },
             '2027-02-05': { title: '立春除夕', desc: '春節連假', type: '連續假期' },
             '2027-02-06': { title: '正月', desc: '春節連假', type: '連續假期' },
@@ -908,19 +972,27 @@
             '2027-02-08': { title: '初三', desc: '春節連假', type: '連續假期' },
             '2027-02-09': { title: '初四', desc: '春節連假', type: '連續假期' },
             '2027-02-10': { title: '初五', desc: '春節連假', type: '連續假期' },
+
             '2027-02-28': { title: '和平紀念日', desc: '228 和平紀念日', type: '國定假日' },
             '2027-03-01': { title: '228 補假', desc: '228 和平紀念日', type: '連續假期' },
+
             '2027-04-04': { title: '兒童節', desc: '兒童節放假', type: '國定假日' },
             '2027-04-05': { title: '清明節', desc: '民族掃墓節', type: '國定假日' },
             '2027-04-06': { title: '兒童節補假', desc: '兒童節與清明節連假', type: '連續假期' },
+
             '2027-04-30': { title: '勞動節補假', desc: '勞工節放假', type: '補假一日' },
             '2027-05-01': { title: '勞動節', desc: '勞工節放假', type: '特定節日' },
+
             '2027-06-09': { title: '端午節', desc: '農曆五月初五端午節', type: '國定假日' },
+
             '2027-09-15': { title: '中秋節', desc: '農曆八月十五中秋節', type: '國定假日' },
             '2027-09-28': { title: '教師節', desc: '至聖先師孔子誕辰紀念日', type: '國定假日' },
+
             '2027-10-10': { title: '國慶日', desc: '中華民國國慶日', type: '國定假日' },
             '2027-10-11': { title: '國慶連假', desc: '國慶日假期', type: '連續假期' },
+
             '2027-10-25': { title: '光復節', desc: '臺灣光復節', type: '國定假日' },
+
             '2027-12-24': { title: '行憲紀念補假', desc: '國慶日假期', type: '補假一日' },
             '2027-12-25': { title: '行憲紀念', desc: '行憲紀念日', type: '連續假期' }
         };
@@ -948,10 +1020,10 @@
          * ========================================================= */
         let activeYear = 2026;
         let activeMonth = 1;
+
         let holidayYear = 2026;
         let holidayMonth = 1;
 
-        // 班表月曆切換
         function changeMonth(delta) {
             activeMonth += delta;
             if (activeMonth > 12) {
@@ -971,7 +1043,6 @@
             renderCalendar();
         }
 
-        // 時鐘與倒數更新
         function updateClocks() {
             const now = new Date();
             const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -1005,7 +1076,6 @@
             }
         }
 
-        // Tab 切換
         function switchTab(index) {
             for (let i = 1; i <= 3; i++) {
                 const btn = document.getElementById(`tabBtn${i}`);
@@ -1025,7 +1095,6 @@
             }
         }
 
-        // 班表月曆渲染
         function renderCalendar() {
             document.getElementById('currentYearDisplay').innerText = activeYear;
             document.getElementById('currentMonthDisplay').innerText = activeMonth;
@@ -1065,11 +1134,11 @@
                 let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[110px] sm:min-h-[135px] transition-all relative overflow-hidden ";
                 
                 if (isToday) {
-                    cellClasses += "bg-slate-800/90 text-white ring-2 ring-cyan-400 shadow-[0_0_20px_rgba(0,242,254,0.4)] z-10 ";
+                    cellClasses += "bg-slate-900 text-white ring-2 ring-cyan-400 z-10 shadow-[0_0_15px_rgba(0,240,255,0.5)] ";
                 } else if (eventsList.length > 0) {
-                    cellClasses += "glass-card cursor-pointer hover:border-cyan-400/60 ";
+                    cellClasses += "ui-card cursor-pointer hover:border-cyan-400/80 ";
                 } else if (isWeekend) {
-                    cellClasses += "weekend-cell hover:bg-rose-500/20 ";
+                    cellClasses += "weekend-cell hover:bg-pink-500/20 ";
                 } else {
                     cellClasses += "text-slate-200 hover:bg-slate-800/80 ";
                 }
@@ -1090,8 +1159,8 @@
                 }
 
                 const dayDisplay = isToday 
-                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-xl font-black text-cyan-400 font-cyber glow-text-cyan">${d}</span><span class="text-[9px] sm:text-xs bg-cyan-400 text-slate-950 font-black px-1.5 py-0.5 rounded-md shadow-[0_0_10px_rgba(0,242,254,0.5)]">今</span></div>`
-                    : `<span class="text-sm sm:text-xl font-bold text-left font-cyber">${d}</span>`;
+                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-xl font-cyber-num font-black text-cyan-400 drop-shadow-[0_0_8px_#00f0ff]">${d}</span><span class="text-[9px] sm:text-xs bg-cyan-400 text-slate-950 font-bold px-1.5 py-0.5 rounded-md shadow-[0_0_8px_#00f0ff]">今</span></div>`
+                    : `<span class="text-sm sm:text-xl font-cyber-num font-bold text-left">${d}</span>`;
 
                 grid.innerHTML += `
                     <div class="${cellClasses}" ${clickAction}>
@@ -1102,7 +1171,6 @@
             }
         }
 
-        // 假日月曆渲染
         function renderHolidayCalendar() {
             document.getElementById('holidayYearDisplay').innerText = holidayYear;
             document.getElementById('holidayMonthDisplay').innerText = holidayMonth;
@@ -1134,11 +1202,11 @@
                 let cellClasses = "p-1.5 sm:p-2 rounded-xl flex flex-col justify-start items-stretch min-h-[110px] sm:min-h-[135px] transition-all relative overflow-hidden ";
                 
                 if (isToday) {
-                    cellClasses += "bg-slate-800/90 text-white ring-2 ring-pink-400 shadow-[0_0_20px_rgba(255,0,127,0.4)] z-10 ";
+                    cellClasses += "bg-slate-900 text-white ring-2 ring-pink-400 z-10 shadow-[0_0_15px_rgba(255,0,127,0.5)] ";
                 } else if (holidayInfo) {
-                    cellClasses += "glass-card border-pink-500/50 bg-pink-500/10 cursor-pointer hover:border-pink-400 ";
+                    cellClasses += "ui-card border-pink-500/50 bg-pink-500/10 cursor-pointer hover:border-pink-400 ";
                 } else if (isWeekend) {
-                    cellClasses += "weekend-cell hover:bg-rose-500/20 ";
+                    cellClasses += "weekend-cell hover:bg-pink-500/20 ";
                 } else {
                     cellClasses += "text-slate-200 hover:bg-slate-800/80 ";
                 }
@@ -1155,8 +1223,8 @@
                 }
 
                 const dayDisplay = isToday 
-                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-xl font-black text-pink-400 font-cyber glow-text-pink">${d}</span><span class="text-[9px] sm:text-xs bg-pink-400 text-slate-950 font-black px-1.5 py-0.5 rounded-md shadow-[0_0_10px_rgba(255,0,127,0.5)]">今</span></div>`
-                    : `<span class="text-sm sm:text-xl font-bold text-left font-cyber">${d}</span>`;
+                    ? `<div class="flex justify-between items-center w-full"><span class="text-sm sm:text-xl font-cyber-num font-black text-pink-400 drop-shadow-[0_0_8px_#ff007f]">${d}</span><span class="text-[9px] sm:text-xs bg-pink-400 text-slate-950 font-bold px-1.5 py-0.5 rounded-md shadow-[0_0_8px_#ff007f]">今</span></div>`
+                    : `<span class="text-sm sm:text-xl font-cyber-num font-bold text-left">${d}</span>`;
 
                 grid.innerHTML += `
                     <div class="${cellClasses}" ${clickAction}>
@@ -1193,7 +1261,7 @@
             document.getElementById('modalDate').innerText = dateStr;
             const modalList = document.getElementById('modalEventList');
             modalList.innerHTML = `
-                <div class="p-4 sm:p-6 rounded-2xl glass-card border-2 border-pink-500/80 bg-pink-950/80 space-y-2.5 shadow-2xl">
+                <div class="p-4 sm:p-6 rounded-2xl ui-card border-2 border-pink-500/80 bg-pink-950/80 space-y-2.5 shadow-2xl">
                     <div class="flex items-center space-x-2.5">
                         <span class="text-xs sm:text-base px-3 py-1 rounded-xl font-black event-pink shadow-lg">${info.type || '國定假日'}</span>
                     </div>
@@ -1225,7 +1293,7 @@
             events.forEach(event => {
                 const categoryName = colorMap[event.color] || '行程標籤';
                 modalList.innerHTML += `
-                    <div class="p-4 sm:p-6 rounded-2xl glass-card border-2 border-slate-500/80 bg-slate-900/90 text-left space-y-2.5 shadow-2xl mb-3">
+                    <div class="p-4 sm:p-6 rounded-2xl ui-card border-2 border-slate-500/80 bg-slate-900/90 text-left space-y-2.5 shadow-2xl mb-3">
                         <div class="flex items-center space-x-2.5">
                             <span class="text-xs sm:text-base px-3 py-1 rounded-lg font-extrabold event-${event.color} shadow-md">${categoryName}</span>
                         </div>
@@ -1255,24 +1323,56 @@
             modal.classList.add('opacity-0');
             container.classList.remove('scale-100');
             container.classList.add('scale-95');
-            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+            setTimeout(() => { modal.classList.add('hidden'); }, 200);
         }
 
-        // 點擊 Modal 外部背景關閉
         document.getElementById('eventModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
 
-        // 按 Esc 鍵關閉 Modal
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 closeModal();
             }
         });
 
-        // 頁面初始化與動態載入動畫隱藏
+        /* 賽博霓虹風格加載動態 */
+        function startCyberNeonLoader(onComplete) {
+            const progressBar = document.getElementById('cyberLoaderBar');
+            const statusText = document.getElementById('loaderStatusText');
+            const percentText = document.getElementById('loaderPercentage');
+            
+            const stages = [
+                { progress: 30, text: "CONNECTING_NEON_GRID..." },
+                { progress: 65, text: "PARSING_SCHEDULE_NODES..." },
+                { progress: 88, text: "CALCULATING_HOLIDAY_DATA..." },
+                { progress: 100, text: "SYSTEM_ONLINE" }
+            ];
+
+            let currentStage = 0;
+            let currentPercent = 0;
+
+            const interval = setInterval(() => {
+                const target = stages[currentStage].progress;
+                if (currentPercent < target) {
+                    currentPercent += Math.floor(Math.random() * 6) + 2;
+                    if (currentPercent > target) currentPercent = target;
+                    
+                    if (progressBar) progressBar.style.width = `${currentPercent}%`;
+                    if (percentText) percentText.innerText = `${currentPercent}%`;
+                } else {
+                    if (statusText) statusText.innerText = stages[currentStage].text;
+                    currentStage++;
+                    if (currentStage >= stages.length) {
+                        clearInterval(interval);
+                        setTimeout(onComplete, 300);
+                    }
+                }
+            }, 35);
+        }
+
         window.addEventListener('load', function() {
             updateClocks();
             setInterval(updateClocks, 1000);
@@ -1286,13 +1386,12 @@
             renderCalendar();
             renderHolidayCalendar();
 
-            // 淡出載入動畫
-            setTimeout(() => {
+            startCyberNeonLoader(() => {
                 const loader = document.getElementById('page-loader');
                 if (loader) {
                     loader.classList.add('fade-out');
                 }
-            }, 500);
+            });
         });
     </script>
 </body>
