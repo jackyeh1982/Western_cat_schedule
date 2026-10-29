@@ -286,7 +286,7 @@
                     <!-- 導覽控制頂部：上個月 / 回到今天 / 下個月 -->
                     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800">
                         <div class="flex items-center space-x-2 w-full sm:w-auto justify-between">
-                            <h2 class="text-2xl sm:text-3xl font-bold text-white flex items-center gap-2">
+                            <h2 class="text-xl sm:text-2xl font-bold text-white flex items-center gap-2">
                                 <span id="currentYearDisplay" class="text-cyan-400">2026</span> 年
                                 <span id="currentMonthDisplay" class="text-white">1</span> 月班表
                             </h2>
@@ -335,14 +335,14 @@
                     <!-- 月曆主體 (100% 滿寬) -->
                     <div class="w-full glass-card rounded-2xl p-1.5 sm:p-4">
                         <!-- 星期列 -->
-                        <div class="grid grid-cols-7 gap-1 text-center text-base sm:text-xl font-extrabold mb-2">
-                            <div class="py-1.5 text-rose-400 bg-rose-500/10 rounded">日</div>
-                            <div class="py-1.5 text-slate-300">一</div>
-                            <div class="py-1.5 text-slate-300">二</div>
-                            <div class="py-1.5 text-slate-300">三</div>
-                            <div class="py-1.5 text-slate-300">四</div>
-                            <div class="py-1.5 text-slate-300">五</div>
-                            <div class="py-1.5 text-rose-400 bg-rose-500/10 rounded">六</div>
+                        <div class="grid grid-cols-7 gap-1 text-center text-sm sm:text-base font-extrabold mb-2">
+                            <div class="py-1 text-rose-400 bg-rose-500/10 rounded">日</div>
+                            <div class="py-1 text-slate-300">一</div>
+                            <div class="py-1 text-slate-300">二</div>
+                            <div class="py-1 text-slate-300">三</div>
+                            <div class="py-1 text-slate-300">四</div>
+                            <div class="py-1 text-slate-300">五</div>
+                            <div class="py-1 text-rose-400 bg-rose-500/10 rounded">六</div>
                         </div>
 
                         <!-- 日期網格 -->
@@ -390,12 +390,12 @@
 
                     <!-- 國定假日圖例提示 -->
                     <div class="flex flex-wrap gap-2 text-[11px] mb-4">
-                        <div class="flex items-center space-x-1 px-2 py-0.5 rounded bg-pink-500/20 border border-pink-500/40 text-pink-300">
-                            <span class="w-1.5 h-1.5 rounded-full bg-pink-500"></span>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded bg-pink-500/20 border border-pink-500/40 text-pink-300">
+                            <span class="w-2 h-2 rounded-full bg-pink-500"></span>
                             <span>國定假日 / 放假日</span>
                         </div>
-                        <div class="flex items-center space-x-1 px-2 py-0.5 rounded bg-rose-500/10 text-rose-400">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-400"></span>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded bg-rose-500/10 text-rose-400">
+                            <span class="w-2 h-2 rounded-full bg-rose-400"></span>
                             <span>六日週末</span>
                         </div>
                     </div>
@@ -673,7 +673,7 @@
             { date: '2026-06-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-06-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
-            /*79月 */
+            /*7月 */
             { date: '2026-07-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-07-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
@@ -715,6 +715,28 @@
             { date: '2026-10-19', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-25', title: '排休', desc: '胖胖豬排休。', color: 'green' },
             { date: '2026-10-28', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+
+            /* 11月 */
+            { date: '2026-11-10', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            { date: '2026-11-13', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-11-18', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            { date: '2026-11-19', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-11-23', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            { date: '2026-11-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-11-28', title: '節日', desc: '胖胖豬節日。', color: 'green' },
+            { date: '2026-11-29', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+
+            /* 12月 */
+            { date: '2026-12-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-12-00', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-12-00', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-12-00', title: '節日', desc: '胖胖豬節日。', color: 'green' },
+            { date: '2026-12-00', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
 
             /* 生日行程 */
             { date: '2026-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
