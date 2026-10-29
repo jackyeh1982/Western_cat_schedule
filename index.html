@@ -127,12 +127,13 @@
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
         }
 
-        /* 日曆 4 色行程與國定假日標籤 */
-        .event-red { background-color: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; color: #fca5a5; }
-        .event-blue { background-color: rgba(59, 130, 246, 0.25); border: 1px solid #3b82f6; color: #93c5fd; }
-        .event-green { background-color: rgba(34, 197, 94, 0.25); border: 1px solid #22c55e; color: #86efac; }
-        .event-purple { background-color: rgba(168, 85, 247, 0.25); border: 1px solid #a855f7; color: #d8b4fe; }
-        .event-pink { background-color: rgba(244, 63, 94, 0.25); border: 1px solid #f43f5e; color: #fecdd3; }
+        /* 日曆 6 色行程與國定假日標籤 (更新/新增顏色樣式) */
+        .event-red { background-color: rgba(239, 68, 68, 0.25); border: 1px solid #ef4444; color: #fca5a5; } /* 例假 */
+        .event-green { background-color: rgba(34, 197, 94, 0.25); border: 1px solid #22c55e; color: #86efac; } /* 休假 */
+        .event-yellow { background-color: rgba(234, 179, 8, 0.25); border: 1px solid #eab308; color: #fef08a; } /* 節日 */
+        .event-white { background-color: rgba(255, 255, 255, 0.18); border: 1px solid #e2e8f0; color: #ffffff; } /* 支援 */
+        .event-purple { background-color: rgba(168, 85, 247, 0.25); border: 1px solid #a855f7; color: #d8b4fe; } /* 活動 */
+        .event-pink { background-color: rgba(244, 63, 94, 0.25); border: 1px solid #f43f5e; color: #fecdd3; } /* 國定假日 (不變) */
 
         /* 週末高亮樣式 */
         .weekend-cell {
@@ -312,23 +313,27 @@
                         </div>
                     </div>
 
-                    <!-- 4種顏色標註圖例 -->
+                    <!-- 顏色標註圖例 (已更新為最新分類對應) -->
                     <div class="flex flex-wrap gap-2 text-xs mb-4">
                         <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-red font-medium">
                             <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                            <span>緊急/加班</span>
-                        </div>
-                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-blue font-medium">
-                            <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                            <span>日常班表</span>
+                            <span>例假</span>
                         </div>
                         <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-green font-medium">
                             <span class="w-2 h-2 rounded-full bg-green-500"></span>
-                            <span>排休/休假</span>
+                            <span>休假</span>
+                        </div>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-yellow font-medium">
+                            <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+                            <span>節日</span>
+                        </div>
+                        <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-white font-medium">
+                            <span class="w-2 h-2 rounded-full bg-slate-100"></span>
+                            <span>支援</span>
                         </div>
                         <div class="flex items-center space-x-1 px-2.5 py-1 rounded event-purple font-medium">
                             <span class="w-2 h-2 rounded-full bg-purple-500"></span>
-                            <span>特殊/活動</span>
+                            <span>活動</span>
                         </div>
                     </div>
 
@@ -617,135 +622,116 @@
 
         /* =========================================================
          * [修改區 2] 班表 / 行程自定義標註 (支援同一天多個行程)
-         * color 顏色可選: 'red' | 'blue' | 'green' | 'purple'
+         * color 顏色可選: 'red'(例假) | 'green'(休假) | 'yellow'(節日) | 'white'(支援) | 'purple'(活動)
          * ========================================================= */
         const CONFIG_EVENTS = [
             // 2026年
-            { date: '2026-01-01', title: '元旦跨年派對', desc: '迎接 2026 第一天！', color: 'red' },
-            { date: '2026-02-16', title: '除夕團圓夜', desc: '家族年夜飯聚餐。', color: 'red' },
-            { date: '2026-05-20', title: '系統年度維護', desc: '凌晨核心資料庫更新。', color: 'red' },
+            { date: '2026-01-01', title: '元旦跨年派對', desc: '迎接 2026 第一天！', color: 'purple' },
+            { date: '2026-02-16', title: '除夕團圓夜', desc: '家族年夜飯聚餐。', color: 'yellow' },
+            { date: '2026-05-20', title: '系統維護', desc: '凌晨核心資料庫更新。', color: 'purple' },
 
-            /* 6月 */
-            { date: '2026-06-09', title: '支援樹林中山', desc: '樹林中山。', color: 'blue' },
-            { date: '2026-06-10', title: '支援樹林中山', desc: '樹林中山。', color: 'blue' },
-            { date: '2026-06-14', title: '支援板橋四川', desc: '板橋四川。', color: 'blue' },
+            /* 支援行程 (white) */
+            { date: '2026-06-09', title: '支援樹林中山', desc: '樹林中山。', color: 'white' },
+            { date: '2026-06-10', title: '支援樹林中山', desc: '樹林中山。', color: 'white' },
+            { date: '2026-06-14', title: '支援板橋四川', desc: '板橋四川。', color: 'white' },
 
-            /* 7月 */
-            { date: '2026-07-11', title: '支援板橋文化', desc: '板橋文化。', color: 'blue' },
-            { date: '2026-07-14', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-07-24', title: '支援板橋文化', desc: '板橋文化。', color: 'blue' },
-            { date: '2026-07-29', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-07-11', title: '支援板橋文化', desc: '板橋文化。', color: 'white' },
+            { date: '2026-07-14', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
+            { date: '2026-07-24', title: '支援板橋文化', desc: '板橋文化。', color: 'white' },
+            { date: '2026-07-29', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
 
-            /* 8月 */
-            { date: '2026-08-02', title: '支援板橋文化', desc: '板橋文化。', color: 'blue' },
-            { date: '2026-08-17', title: '支援樹林篤行', desc: '樹林篤行。', color: 'blue' },
-            { date: '2026-08-30', title: '支援板橋中正', desc: '板橋中正。', color: 'blue' },
-            { date: '2026-08-31', title: '支援板橋中正', desc: '板橋中正。', color: 'blue' },
+            { date: '2026-08-02', title: '支援板橋文化', desc: '板橋文化。', color: 'white' },
+            { date: '2026-08-17', title: '支援樹林篤行', desc: '樹林篤行。', color: 'white' },
+            { date: '2026-08-30', title: '支援板橋中正', desc: '板橋中正。', color: 'white' },
+            { date: '2026-08-31', title: '支援板橋中正', desc: '板橋中正。', color: 'white' },
 
-            /* 9月 */
-            { date: '2026-09-02', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-09-15', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-09-29', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
-            { date: '2026-09-30', title: '支援板橋華江', desc: '板橋華江。', color: 'blue' },
+            { date: '2026-09-02', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
+            { date: '2026-09-15', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
+            { date: '2026-09-29', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
+            { date: '2026-09-30', title: '支援板橋華江', desc: '板橋華江。', color: 'white' },
 
-            /* 排休行程 */
-            /* 5月 */
-            { date: '2026-05-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-13', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-17', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-18', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-22', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-23', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-05-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            /* 休假 (green) */
+            { date: '2026-05-04', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-09', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-12', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-13', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-17', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-18', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-22', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-23', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-05-30', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /* 6月 */
-            { date: '2026-06-03', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-11', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-15', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-16', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-22', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-06-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-06-03', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-06', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-11', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-12', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-15', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-16', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-22', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-06-30', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /*7月 */
-            { date: '2026-07-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-04', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-15', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-16', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-19', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-22', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-07-30', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-07-01', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-04', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-12', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-15', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-16', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-19', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-22', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-26', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-07-30', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /* 8月 */
-            { date: '2026-08-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-12', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-13', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-16', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-21', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-24', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-08-29', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-08-05', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-12', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-13', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-16', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-21', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-24', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-08-29', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /* 9月 */
-            { date: '2026-09-01', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-10', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-17', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-20', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-26', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-09-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-09-01', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-09-05', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-09-10', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-09-17', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-09-20', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-09-26', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-09-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /* 10月 */
-            { date: '2026-10-02', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-06', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-07', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-08', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-09', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-13', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-14', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-19', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-25', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-10-28', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-10-02', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-06', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-07', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-08', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-09', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-13', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-14', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-19', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-25', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-10-28', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /* 11月 */
-            { date: '2026-11-02', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-11-07', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-11-10', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-11-13', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-11-18', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-11-19', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-11-23', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-11-27', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-11-28', title: '節日', desc: '胖胖豬節日。', color: 'red' },
-            { date: '2026-11-29', title: '例假', desc: '胖胖豬例假。', color: 'green' },
+            /* 例假 (red)、休假 (green)、節日 (yellow) */
+            { date: '2026-11-02', title: '例假', desc: '胖胖豬例假。', color: 'red' },
+            { date: '2026-11-07', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-11-10', title: '例假', desc: '胖胖豬例假。', color: 'red' },
+            { date: '2026-11-13', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-11-18', title: '例假', desc: '胖胖豬例假。', color: 'red' },
+            { date: '2026-11-19', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-11-23', title: '例假', desc: '胖胖豬例假。', color: 'red' },
+            { date: '2026-11-27', title: '休假', desc: '胖胖豬休假。', color: 'green' },
+            { date: '2026-11-28', title: '節日', desc: '胖胖豬節日。', color: 'yellow' },
+            { date: '2026-11-29', title: '例假', desc: '胖胖豬例假。', color: 'red' },
 
-            /* 12月 */
-            { date: '2026-12-05', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-12-00', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-12-00', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-12-00', title: '節日', desc: '胖胖豬節日。', color: 'green' },
-            { date: '2026-12-00', title: '例假', desc: '胖胖豬例假。', color: 'green' },
-            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
-            { date: '2026-12-00', title: '排休', desc: '胖胖豬排休。', color: 'green' },
+            { date: '2026-12-05', title: '休假', desc: '胖胖豬休假。', color: 'green' },
 
-            /* 生日行程 */
+            /* 生日活動 (purple) */
             { date: '2026-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
             { date: '2026-10-23', title: '胖胖生日', desc: '犀利貓生日。', color: 'purple' },
 
             // 2027年 範例資料
-            { date: '2027-01-23', title: '尾牙', desc: '新日興尾牙', color: 'red' },
+            { date: '2027-01-23', title: '尾牙', desc: '新日興尾牙', color: 'purple' },
             { date: '2027-09-10', title: '胖胖生日', desc: '西洋貓生日。', color: 'purple' },
             { date: '2027-10-23', title: '胖胖生日', desc: '犀利貓生日。', color: 'purple' }
         ];
@@ -1124,7 +1110,7 @@
             }, 10);
         }
 
-        // 5. Modal 彈窗控制 (支援展示當天多個行程、統一字體大小)
+        // 5. Modal 彈窗控制 (支援展示當天多個行程、更新顏色分類名稱)
         function openModal(dateStr) {
             const events = CONFIG_EVENTS.filter(e => e.date === dateStr);
             if (!events || events.length === 0) return;
@@ -1134,10 +1120,12 @@
             modalList.innerHTML = '';
 
             const colorMap = {
-                red: '緊急 / 加班',
-                blue: '日常班表',
-                green: '排休 / 休假',
-                purple: '特殊 / 活動'
+                red: '例假',
+                green: '休假',
+                yellow: '節日',
+                white: '支援',
+                purple: '活動',
+                pink: '國定假日'
             };
 
             events.forEach(event => {
